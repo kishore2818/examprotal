@@ -51,6 +51,14 @@ export interface User {
   token: string;
 }
 
+const API_BASE = import.meta.env.PROD 
+  ? 'https://examprotal-backend.onrender.com' 
+  : '';
+
+const apiFetch = (path: string, options?: RequestInit) => {
+  return fetch(`${API_BASE}${path}`, options);
+};
+
 const getHeaders = () => {
   const token = localStorage.getItem('exam_portal_token');
   const headers: Record<string, string> = {
@@ -73,7 +81,7 @@ const handleResponse = async (res: Response) => {
 export const api = {
   // Auth endpoints
   async login(registerNumber: string, password: string): Promise<User> {
-    const res = await fetch('/api/auth/login', {
+    const res = await apiFetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ registerNumber, password })
@@ -85,7 +93,7 @@ export const api = {
   },
 
   async register(name: string, registerNumber: string, password: string): Promise<User> {
-    const res = await fetch('/api/auth/register', {
+    const res = await apiFetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, registerNumber, password })
@@ -113,7 +121,7 @@ export const api = {
 
   // Assignment endpoints
   async getAssignments(): Promise<Assignment[]> {
-    const res = await fetch('/api/assignments', {
+    const res = await apiFetch('/api/assignments', {
       method: 'GET',
       headers: getHeaders()
     });
@@ -121,7 +129,7 @@ export const api = {
   },
 
   async getAssignmentsForAdmin(classDivision: '10th' | '11th' | '12th'): Promise<Assignment[]> {
-    const res = await fetch(`/api/assignments/standard/${classDivision}`, {
+    const res = await apiFetch(`/api/assignments/standard/${classDivision}`, {
       method: 'GET',
       headers: getHeaders()
     });
@@ -129,7 +137,7 @@ export const api = {
   },
 
   async createAssignment(assignment: Omit<Assignment, '_id' | 'status' | 'isNew'>): Promise<Assignment> {
-    const res = await fetch('/api/assignments', {
+    const res = await apiFetch('/api/assignments', {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(assignment)
@@ -150,7 +158,7 @@ export const api = {
     timeSpent: number;
     studentAnswers: Record<number, number>;
   }> {
-    const res = await fetch(`/api/assignments/${assignmentId}/submit`, {
+    const res = await apiFetch(`/api/assignments/${assignmentId}/submit`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify({ answers, timeSpent })
@@ -160,7 +168,7 @@ export const api = {
 
   // Grades endpoints
   async getMyGrades(): Promise<UserGrade> {
-    const res = await fetch('/api/grades/my', {
+    const res = await apiFetch('/api/grades/my', {
       method: 'GET',
       headers: getHeaders()
     });
@@ -168,7 +176,7 @@ export const api = {
   },
 
   async getAllGrades(): Promise<UserGrade[]> {
-    const res = await fetch('/api/grades/admin', {
+    const res = await apiFetch('/api/grades/admin', {
       method: 'GET',
       headers: getHeaders()
     });
@@ -176,7 +184,7 @@ export const api = {
   },
 
   async resetStudentExam(registerNumber: string, assignmentId: string): Promise<any> {
-    const res = await fetch(`/api/grades/admin/retake/${registerNumber}/${assignmentId}`, {
+    const res = await apiFetch(`/api/grades/admin/retake/${registerNumber}/${assignmentId}`, {
       method: 'DELETE',
       headers: getHeaders()
     });
