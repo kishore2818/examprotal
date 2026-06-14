@@ -1,0 +1,409 @@
+
+Unit 1: Electrostatics - Fundamental Principles and History
+
+1. According to the text, which of the following forces experienced in everyday life is NOT electromagnetic in nature?
+
+A. Tension in a string
+B. Normal force from a surface
+C. Gravitational force
+D. Static friction
+
+Answer: C
+EXPLANATION: The text states that except gravity, all forces experienced in everyday life, such as tension, friction, and normal force, arise from electromagnetic interactions between atoms.
+2. What is the microscopic origin of the ‘normal force’ that allows a person to stand on the Earth’s surface?
+A. Strong nuclear interactions
+B. The intrinsic mass of the person’s feet
+C. Gravitational repulsion from the Earth’s core
+D. Electromagnetic interaction of atoms at the contact surfaces
+Answer: D
+EXPLANATION: The normal force arises due to the electromagnetic interaction of atoms on the surface of the Earth with the atoms in the person’s feet.
+3. Which material was first noticed by the Greeks two millenniums ago to attract small pieces of leaves and dust after being rubbed?
+
+A. Amber
+B. Rubber rod
+C. Glass rod
+D. Silk cloth
+
+Answer: A
+EXPLANATION: Greeks noticed that amber, a translucent fossilized resin, attracted light objects after being rubbed with fur.
+4. In the 18th century, who was responsible for the convention of naming the two types of charges ‘positive’ and ‘negative’?
+
+A. J. J. Thomson
+B. Benjamin Franklin
+C. Ernest Rutherford
+<w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="142" w:right="616" w:bottom="284" w:left="851" w:header="720" w:footer="720" w:gutter="0"/><w:cols w:num="2" w:space="720"/></w:sectPr></w:pPr><w:r w:rsidRPr="00937F7C"><w:rPr><w:bCs/><w:color w:val="000000" w:themeColor="text1"/></w:rPr><w:t>D. Coulomb
+
+Answer: B
+EXPLANATION: Benjamin Franklin called one type of charge positive (+) and the other negative (-) in the 18th century.
+5. Based on Benjamin Franklin’s convention, what type of charge is acquired by a glass rod when rubbed with silk?
+
+A. Negative
+B. Positive
+C. Neutral
+D. Bipolar
+
+Answer: B
+EXPLANATION: According to the convention established by Franklin, glass rods become positively charged when rubbed with silk.
+6. What is the result when a charged rubber rod is brought near another charged rubber rod?
+
+A. They attract each other
+B. Nothing happens
+C. They become electrically neutral
+D. They repel each other
+
+Answer: D
+EXPLANATION: Like charges repel; since both are rubber rods charged in the same way, they possess like charges and repel each other.
+7. The process of charging an object through rubbing is scientifically referred to as:
+
+A. Electrostatic induction
+B. Thermonic emission
+C. Triboelectric charging
+D. Electrolytic dissociation
+
+Answer: C
+EXPLANATION: Charging objects through friction or rubbing is known as triboelectric charging.
+8. Which subatomic particle is described as having zero charge?
+
+A. Proton
+B. Electron
+C. Neutron
+D. Positron
+
+Answer: C
+EXPLANATION: Atoms are made of negatively charged electrons, positively charged protons, and neutrons which have zero charge.
+9. If the net charge of an object is zero, the object is said to be:
+
+A. Insulated
+B. Electrically neutral
+C. Negatively charged
+D. Ionized
+
+Answer: B
+EXPLANATION: When the sum of positive and negative charges in an object results in zero net charge, it is electrically neutral.
+10. What is the SI unit of electric charge?
+
+A. Ampere
+B. Volt
+C. Coulomb
+D. Ohm
+
+Answer: C
+EXPLANATION: The SI unit of charge is the coulomb (C).
+11. Which fundamental property of particles is mentioned alongside mass as being intrinsic to the building blocks of matter?
+
+A. Velocity
+B. Electric charge
+C. Volume
+D. Temperature
+
+Answer: B
+EXPLANATION: The text states that electric charge is an intrinsic and fundamental property of particles, similar to mass.
+12. When a glass rod is rubbed with silk, why does the silk become negatively charged?
+A. Protons are transferred from the silk to the glass
+B. Electrons are created on the silk by friction
+C. Neutrons are converted into electrons on the silk surface
+D. Negative charges are transferred from the glass to the silk
+Answer: D
+EXPLANATION: Rubbing simply transfers charges; in this case, some negative charges are transferred from the glass rod to the silk cloth.
+13. Which statement best describes the Law of Conservation of Charges?
+A. The total charge in any system always increases over time
+B. The total electric charge in the universe is constant
+C. Charge can be created but never destroyed
+D. Charge can only be destroyed in a vacuum
+Answer: B
+EXPLANATION: The law states that total electric charge in the universe is constant and can neither be created nor destroyed, only transferred.
+14. The interaction between the atoms in our hand and the atoms in an object when we push it is primarily:
+
+A. Gravitational
+B. Nuclear
+C. Electromagnetic
+D. Kinetic
+
+Answer: C
+EXPLANATION: The interaction between atoms during physical contact, like pushing an object, is electromagnetic in nature.
+15. Electrostatics is the branch of electricity that deals with:
+
+A. Charges in motion
+B. Magnetic fields only
+C. Stationary charges
+D. Chemical energy
+
+Answer: C
+EXPLANATION: Electrostatics specifically deals with the behavior and related phenomena of charges at rest (stationary charges).
+16. What did Benjamin Franklin conclude about the nature of rubbing two objects together?
+A. Friction creates new electric energy from heat
+B. Rubbing simply transfers charges from one object to another
+C. Rubbing removes all charges from both objects
+D. Rubbing converts protons into electrons
+Answer: B
+EXPLANATION: Franklin argued that rubbing doesn’t create charge but merely transfers it, maintaining the neutral balance if both are considered together.
+17. A charged glass rod is brought near a charged rubber rod. What is the observed interaction?
+
+A. Repulsion
+B. No interaction
+C. Spontaneous combustion
+<w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="142" w:right="616" w:bottom="284" w:left="851" w:header="720" w:footer="720" w:gutter="0"/><w:cols w:num="2" w:space="720"/></w:sectPr></w:pPr><w:r w:rsidRPr="00937F7C"><w:rPr><w:bCs/><w:color w:val="000000" w:themeColor="text1"/></w:rPr><w:t>D. Attraction
+
+Answer: D
+EXPLANATION: Glass rods (positive) and rubber rods (negative) have unlike charges, and unlike charges attract.
+18. According to the text, what is the primary reason we can stand on the Earth without falling through it?
+A. Earth’s gravity is weak
+B. The electromagnetic force of atoms
+C. Centrifugal force from Earth’s rotation
+D. Atmospheric pressure
+Answer: B
+EXPLANATION: Though gravity pulls us down, we stand on the surface because of the electromagnetic force of atoms at the contact point.
+19. Who was mentioned as saying ‘Electricity is really just organized lightning’?
+
+A. Benjamin Franklin
+B. J. J. Thomson
+C. George Carlin
+D. Ernest Rutherford
+
+Answer: C
+EXPLANATION: The introductory quote of the unit is attributed to George Carlin.
+20. Static friction and kinetic friction both find their origin in:
+A. The density of the materials
+B. Gravitational pull between surfaces
+C. Electromagnetic interaction between atoms
+D. Quantum tunneling
+Answer: C
+EXPLANATION: Both static and kinetic friction arise from the electromagnetic interaction between the atoms of the two surfaces in contact.
+21. Before rubbing, two objects are generally:
+
+A. Positively charged
+B. Electrically neutral
+C. Negatively charged
+<w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="142" w:right="616" w:bottom="284" w:left="851" w:header="720" w:footer="720" w:gutter="0"/><w:cols w:num="2" w:space="720"/></w:sectPr></w:pPr><w:r w:rsidRPr="00937F7C"><w:rPr><w:bCs/><w:color w:val="000000" w:themeColor="text1"/></w:rPr><w:t>D. Highly conductive
+
+Answer: B
+EXPLANATION: Material objects are generally neutral because they are made of atoms with equal numbers of protons and electrons.
+22. In the context of the Greek observation of amber, what does the term ‘charged’ imply?
+A. The material has gained the property of attracting small pieces of dust
+B. The material has been heated
+C. The material has become magnetic
+D. The material has melted
+Answer: A
+EXPLANATION: Amber possessing the property to attract small pieces of leaves and dust after rubbing is described as being ‘charged’.
+23. Which of the following describes the nature of an electron?
+
+A. Positively charged
+B. Zero charge
+C. Negatively charged
+D. Variable charge
+
+Answer: C
+EXPLANATION: Electrons are the subatomic particles that carry a negative charge.
+24. Rutherford and Thomson’s work in the late 19th/early 20th century established that:
+A. The atom is electrically neutral and composed of charged particles
+B. The atom is a solid, indivisible sphere
+C. Electricity is a fluid called ‘ether’
+D. Gravity and electromagnetism are the same force
+Answer: A
+EXPLANATION: Their work led to the understanding that atoms are neutral and consist of electrons, protons, and neutrons.
+25. Which of the following observations led to the inference that ‘like charges repel’?
+A. A charged glass rod attracting paper
+B. A charged rubber rod attracting a glass rod
+C. Two charged rubber rods pushing away from each other
+D. Amber attracting dust
+Answer: C
+EXPLANATION: When two rods of the same material (e.g., rubber) are charged similarly and brought together, they repel, proving like charges repel.
+26. When amber is rubbed with animal fur, what is the charge of the amber according to Franklin’s convention?
+
+A. Positive
+B. It depends on the humidity
+C. Neutral
+D. Negative
+
+Answer: D
+EXPLANATION: The text states that based on Franklin’s convention, rubber and amber rods are negatively charged.
+27. The total electric charge in any physical process:
+A. Can only be created
+B. Changes based on the force applied
+C. Remains constant
+D. Is always zero
+Answer: C
+EXPLANATION: Conservation of charge means that the total charge remains constant in any physical process; it is merely redistributed.
+28. If you bring a charged glass rod near another charged glass rod, they will:
+
+A. Attract each other
+B. Exchange mass
+C. Neutralize each other
+D. Repel each other
+
+Answer: D
+EXPLANATION: Two charged glass rods both have positive charges. Since they are like charges, they repel.
+29. What was the initial (incorrect) belief regarding the attraction property discovered by the Greeks?
+
+A. It was caused by gravity
+B. It was a form of magnetism
+C. It only happened in the sun
+D. It was unique to amber only
+
+Answer: D
+EXPLANATION: It was initially thought that only amber had this special property, until it was found that other materials like glass also exhibited it.
+30. Electromagnetism is described as essential for understanding the universe in what manner?
+
+A. Segmented
+B. Mathematical only
+C. Holistic
+D. Purely theoretical
+
+Answer: C
+EXPLANATION: The text states that understanding electromagnetism is essential to understand the universe in a holistic manner.
+31. In the late 19th century, which scientist’s work helped clarify the neutral nature of the atom?
+
+A. Isaac Newton
+B. Galileo Galilei
+C. Benjamin Franklin
+D. J. J. Thomson
+
+Answer: D
+EXPLANATION: J. J. Thomson and E. Rutherford’s work was fundamental in understanding atomic structure and charge.
+32. When an object is moved on a surface, the resistance to motion (friction) is caused by:
+A. Vacuum suction
+B. Gravitational drag
+C. The weight of the atmosphere
+D. Atomic-level electromagnetic interactions
+Answer: D
+EXPLANATION: Static and kinetic friction arise from the electromagnetic interactions between atoms of the object and the surface.
+33. The material ‘amber’ is defined in the text as:
+A. Resin from a fossilized tree
+B. A type of volcanic rock
+C. A synthetic plastic developed by Greeks
+D. A metallic ore
+Answer: A
+EXPLANATION: Amber is described as a solid, translucent material formed from the resin of a fossilized tree.
+34. Which of these is a key takeaway from the experiments with rubber and glass rods?
+A. There is only one kind of charge
+B. Charges are caused by mass
+C. Glass cannot be charged
+D. Two kinds of charges exist in the universe
+Answer: D
+EXPLANATION: The different behaviors of attraction and repulsion between glass and rubber rods proved that there are two distinct types of charges.
+35. Why do we say that charges are conserved during the rubbing of a glass rod with silk?
+A. Because the glass rod loses its mass
+B. Because the silk cloth creates new electrons
+C. Because the net charge of the rod-silk system remains zero
+D. Because the rod and silk both become positive
+Answer: C
+EXPLANATION: Before rubbing, both are neutral (sum = 0). After rubbing, the positive charge on the glass equals the negative charge on the silk, so the total remains zero.
+36. The inherent property of particles that causes them to experience the electromagnetic force is:
+
+A. Electric charge
+B. Mass
+C. Volume
+D. Spin
+
+Answer: A
+EXPLANATION: Just as mass is responsible for gravitational force, electric charge is the inherent property responsible for electromagnetic force.
+37. What would happen if you brought a positively charged object near a neutral object (based on the general principles in the text)?
+A. They would always repel
+B. The neutral object would gain protons
+C. The positive object would become neutral instantly
+D. It might attract small pieces if it’s like the amber/glass examples
+Answer: D
+EXPLANATION: The text mentions charged rods attracting ‘pieces of papers’ or ‘leaves’ which are initially neutral, demonstrating the effect of a charged object on neutral matter.
+38. Which subatomic particle’s transfer is primarily responsible for charging by friction?
+
+A. Proton
+B. Neutron
+C. Alpha particle
+<w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="142" w:right="616" w:bottom="284" w:left="851" w:header="720" w:footer="720" w:gutter="0"/><w:cols w:num="2" w:space="720"/></w:sectPr></w:pPr><w:r w:rsidRPr="00937F7C"><w:rPr><w:bCs/><w:color w:val="000000" w:themeColor="text1"/></w:rPr><w:t>D. Electron
+
+Answer: D
+EXPLANATION: While the text mentions ‘charge’ transfer, in standard physics atomic theory (implied by Thomson/Rutherford), it is the negative electrons that are typically transferred.
+39. How did Newton view forces like tension and friction compared to modern understanding?
+A. He treated them as independent, separate natural forces
+B. He saw them all as electromagnetic
+C. He believed they were all types of gravity
+D. He didn’t believe they existed
+Answer: A
+EXPLANATION: Newton treated these forces as independent of each other, whereas we now know they (except gravity) share an electromagnetic origin.
+40. What is the net charge of an atom in its normal state?
+
+A. Zero
+B. Negative
+C. Positive
+D. Infinite
+
+Answer: A
+EXPLANATION: The atom is electrically neutral in general, meaning its net charge is zero.
+41. The study of charges at rest is known as:
+
+A. Electrodynamics
+B. Magnetostatics
+C. Electrostatics
+<w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="142" w:right="616" w:bottom="284" w:left="851" w:header="720" w:footer="720" w:gutter="0"/><w:cols w:num="2" w:space="720"/></w:sectPr></w:pPr><w:r w:rsidRPr="00937F7C"><w:rPr><w:bCs/><w:color w:val="000000" w:themeColor="text1"/></w:rPr><w:t>D. Thermodynamics
+
+Answer: C
+EXPLANATION: The branch of electricity dealing with stationary charges is Electrostatics.
+42. According to the text, which century saw the understanding of the atom as neutral and made of subatomic particles?
+A. Late 19th and early 20th centuries
+B. 18th century only
+C. 15th and 16th centuries
+D. Late 20th and 21st centuries
+Answer: A
+EXPLANATION: The text specifies that following the work of Thomson and Rutherford in the late 19th and early 20th centuries, we understand atomic structure.
+43. If you rub a rubber rod with fur, the rubber rod acquires a negative charge. What happens to the fur?
+A. It stays neutral
+B. It also becomes negatively charged
+C. It becomes positively charged
+D. It disappears
+Answer: C
+EXPLANATION: Due to conservation of charge, if the rubber rod becomes negative by taking charges, the fur must become equally positive.
+44. Which component of the atom has a positive charge?
+
+A. Electron
+B. Proton
+C. Neutron
+D. Nucleus (as a whole)
+
+Answer: B
+EXPLANATION: Protons are the positively charged particles within an atom.
+45. The technological developments of the modern 21st century are primarily due to our understanding of:
+
+A. Electromagnetism
+B. Gravity
+C. Fluid dynamics
+D. Acoustics
+
+Answer: A
+EXPLANATION: The introduction states that modern technological developments are primarily due to our understanding of electromagnetism.
+46. What is the relationship between ‘like’ and ‘unlike’ charges?
+
+A. Like repel, unlike attract
+B. Both attract
+C. Like attract, unlike repel
+D. Both repel
+
+Answer: A
+EXPLANATION: Experimental evidence with glass and rubber rods confirms that like charges repel and unlike charges attract.
+47. In the experiment where a rubber rod is hung by a thread, what provides the evidence for different kinds of charges?
+A. The rod changes color
+B. The rod becomes a magnet
+C. The rod gains mass
+D. The rod experiences both attraction and repulsion depending on the second rod brought near it
+Answer: D
+EXPLANATION: Since the rubber rod repels another rubber rod but attracts a glass rod, it proves the charges on glass and rubber are different.
+48. Which of the following is an example of an electromagnetic force in daily life according to the text?
+A. The force of a string pulling a block
+B. The weight of an object
+C. The planetary motion around the sun
+D. The falling of an apple
+Answer: A
+EXPLANATION: Tension in a string is an electromagnetic force arising from atomic interactions, unlike the other options which are gravitational.
+49. What did the Greeks observe about the material they called ‘amber’?
+A. It could conduct electricity from a lightning strike
+B. It produced a magnetic field that pointed North
+C. It attracted small pieces of leaves and dust after rubbing
+D. It glowed in the dark
+Answer: C
+EXPLANATION: The basic historical observation was amber’s ability to attract light objects after being rubbed.
+50. According to the Law of Conservation of Charge, charge can be:
+A. Created in a laboratory
+B. Transferred from one object to another
+C. Destroyed by heating
+D. Used up until it is gone
+Answer: B
+EXPLANATION: Charges cannot be created or destroyed, but they can be transferred between objects, such as during rubbing.

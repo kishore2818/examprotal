@@ -1,0 +1,2370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TN MCQ Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   ROOT & RESET
+══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0f0f0f;
+  --paper:#fafaf8;
+  --rule:#d0cfc8;
+  --rule-dark:#9a9890;
+  --muted:#6b6a65;
+  --faint:#e8e7e2;
+  --black:#000;
+  --white:#fff;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --mono:'Courier Prime','Courier New',monospace;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:16px;
+  line-height:1.7;
+  min-height:100vh;
+}
+
+/* ══════════════════════════════════════════
+   PAGES
+══════════════════════════════════════════ */
+.page{display:none;min-height:100vh}
+.page.on{display:block}
+
+/* ══════════════════════════════════════════
+   HEADER BAR
+══════════════════════════════════════════ */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;
+  border-bottom:2px solid var(--ink);
+  background:var(--paper);
+  position:sticky;top:0;z-index:200;
+}
+.topbar-brand{
+  font-family:var(--mono);font-weight:700;font-size:15px;
+  letter-spacing:.08em;text-transform:uppercase;
+}
+.topbar-brand small{font-weight:400;font-size:11px;color:var(--muted);display:block;letter-spacing:.12em}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.topbar-user{font-family:var(--mono);font-size:12px;color:var(--muted)}
+button.tbtn{
+  font-family:var(--mono);font-size:12px;
+  border:1px solid var(--ink);
+  background:transparent;color:var(--ink);
+  padding:6px 14px;cursor:pointer;
+  letter-spacing:.05em;
+  transition:background .15s,color .15s;
+}
+button.tbtn:hover{background:var(--ink);color:var(--paper)}
+button.tbtn.filled{background:var(--ink);color:var(--paper)}
+button.tbtn.filled:hover{background:var(--muted)}
+
+/* ══════════════════════════════════════════
+   LAYOUT WRAPPERS
+══════════════════════════════════════════ */
+.sheet{max-width:620px;margin:0 auto;padding:40px 24px 80px}
+.sheet-wide{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+
+/* ══════════════════════════════════════════
+   TYPOGRAPHY PRIMITIVES
+══════════════════════════════════════════ */
+.eyebrow{
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+  margin-bottom:10px;display:block;
+}
+h1.display{
+  font-family:var(--serif);font-size:clamp(32px,7vw,56px);
+  font-weight:700;line-height:1.08;margin-bottom:18px;
+}
+h1.display em{font-style:italic;font-weight:400}
+h2.section{
+  font-family:var(--serif);font-size:22px;font-weight:700;
+  margin-bottom:20px;padding-bottom:10px;
+  border-bottom:1px solid var(--rule);
+}
+p.lead{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:28px}
+
+/* ══════════════════════════════════════════
+   HORIZONTAL RULE / DIVIDER
+══════════════════════════════════════════ */
+.hr{height:1px;background:var(--rule);margin:28px 0}
+.hr-bold{height:2px;background:var(--ink);margin:32px 0}
+
+/* ══════════════════════════════════════════
+   FORM ELEMENTS
+══════════════════════════════════════════ */
+.field{margin-bottom:20px}
+.field>label{
+  display:block;
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  margin-bottom:7px;
+}
+.field input,.field select,.field textarea{
+  width:100%;
+  padding:11px 14px;
+  border:1px solid var(--rule-dark);
+  background:var(--white);
+  color:var(--ink);
+  font-family:var(--serif);font-size:15px;
+  outline:none;
+  transition:border-color .15s;
+  border-radius:0;
+  -webkit-appearance:none;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--ink);
+  box-shadow:inset 0 0 0 1px var(--ink);
+}
+.field textarea{resize:vertical;min-height:88px;line-height:1.6}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%230f0f0f'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.field select option{background:var(--white)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:480px){.field-row{grid-template-columns:1fr}}
+.err-box{
+  border:1px solid var(--ink);border-left:4px solid var(--ink);
+  background:var(--faint);
+  padding:11px 14px;
+  font-family:var(--mono);font-size:13px;
+  margin-bottom:18px;display:none;
+}
+
+/* ══════════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════════ */
+.btn{
+  display:block;width:100%;
+  padding:14px 20px;
+  font-family:var(--mono);font-size:13px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  cursor:pointer;border:none;
+  transition:opacity .15s, transform .08s;
+}
+.btn:active{transform:scale(.98)}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-ink:hover{opacity:.85}
+.btn-outline{background:transparent;border:2px solid var(--ink);color:var(--ink)}
+.btn-outline:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost{background:transparent;border:1px solid var(--rule-dark);color:var(--muted)}
+.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn-sm{width:auto;padding:8px 16px;font-size:11px}
+.btn-row{display:flex;gap:12px}.btn-row .btn{flex:1}
+
+/* ══════════════════════════════════════════
+   CARDS / LIST ITEMS
+══════════════════════════════════════════ */
+.unit-card{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;
+  border:1px solid var(--rule);
+  margin-bottom:-1px;
+  cursor:pointer;
+  transition:background .12s;
+  background:var(--white);
+}
+.unit-card:first-child{border-top:2px solid var(--ink)}
+.unit-card:last-child{border-bottom:2px solid var(--ink)}
+.unit-card:hover{background:var(--faint)}
+.unit-card-left .unit-name{font-weight:700;font-size:15px;margin-bottom:2px}
+.unit-card-left .unit-sub{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em}
+.unit-card-right{display:flex;align-items:center;gap:12px}
+.unit-count{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.unit-arrow{font-size:18px;color:var(--muted)}
+.unit-card:hover .unit-arrow{color:var(--ink)}
+
+/* ══════════════════════════════════════════
+   CLASS TABS
+══════════════════════════════════════════ */
+.class-tabs{display:flex;border-bottom:2px solid var(--ink);margin-bottom:28px}
+.ctab{
+  font-family:var(--mono);font-size:12px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:10px 20px;
+  border:none;background:transparent;cursor:pointer;
+  color:var(--muted);
+  border-bottom:3px solid transparent;
+  margin-bottom:-2px;
+  transition:color .15s;
+}
+.ctab:hover{color:var(--ink)}
+.ctab.on{color:var(--ink);border-bottom-color:var(--ink)}
+
+/* ══════════════════════════════════════════
+   QUIZ UI
+══════════════════════════════════════════ */
+.quiz-meta{
+  display:flex;align-items:center;gap:16px;
+  padding:12px 18px;
+  border:1px solid var(--rule);
+  background:var(--faint);
+  margin-bottom:28px;
+}
+.qmeta-prog{flex:1}
+.qmeta-label{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:6px;letter-spacing:.08em}
+.qmeta-bar{height:4px;background:var(--rule);position:relative}
+.qmeta-fill{height:100%;background:var(--ink);transition:width .35s}
+.qmeta-timer{
+  font-family:var(--mono);font-weight:700;font-size:22px;
+  color:var(--ink);min-width:72px;text-align:right;
+}
+.qmeta-timer.urgent{color:var(--muted);animation:flicker 1s step-end infinite}
+@keyframes flicker{0%,100%{opacity:1}50%{opacity:.3}}
+
+.q-number{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.q-stem{font-size:18px;font-weight:700;line-height:1.55;margin-bottom:24px}
+.choices{display:grid;gap:10px;margin-bottom:28px}
+.choice{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:13px 18px;
+  border:1px solid var(--rule-dark);
+  background:var(--white);
+  cursor:pointer;
+  transition:border-color .12s,background .12s;
+  font-size:15px;line-height:1.5;
+}
+.choice:hover{border-color:var(--ink)}
+.choice.picked{border-color:var(--ink);background:var(--faint);border-width:2px}
+.choice.right{border-color:var(--ink);background:var(--faint);border-width:2px}
+.choice.wrong{border-color:var(--rule);background:var(--white);opacity:.45}
+.choice-key{
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  width:26px;height:26px;min-width:26px;
+  border:1px solid var(--rule-dark);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .12s,border-color .12s;
+  margin-top:1px;
+}
+.choice.picked .choice-key{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.choice.right .choice-key{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.q-nav{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.q-nav .btn{width:auto;padding:10px 22px}
+.q-answered{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em}
+
+/* ══════════════════════════════════════════
+   RESULT
+══════════════════════════════════════════ */
+.result-banner{
+  border:2px solid var(--ink);
+  padding:36px 24px;
+  text-align:center;
+  margin-bottom:24px;
+  position:relative;
+}
+.result-pct{
+  font-family:var(--mono);font-weight:700;
+  font-size:clamp(52px,14vw,80px);
+  line-height:1;margin-bottom:6px;
+}
+.result-tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.result-verdict{
+  font-family:var(--mono);font-size:13px;
+  margin-top:14px;letter-spacing:.05em;
+}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.stat-cell{border:1px solid var(--rule);padding:16px;text-align:center;background:var(--white)}
+.stat-num{font-family:var(--mono);font-weight:700;font-size:24px}
+.stat-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+
+/* ══════════════════════════════════════════
+   REVIEW
+══════════════════════════════════════════ */
+.rev-item{border-left:3px solid var(--rule);padding:16px 18px;margin-bottom:12px}
+.rev-item.correct{border-left-color:var(--ink)}
+.rev-item.wrong{border-left-color:var(--muted)}
+.rev-meta{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.rev-q{font-weight:700;font-size:14px;margin-bottom:10px;line-height:1.5}
+.rev-opt{font-family:var(--mono);font-size:12px;padding:6px 12px;margin-bottom:4px}
+.rev-opt.ca{background:var(--faint);border-left:3px solid var(--ink);color:var(--ink)}
+.rev-opt.wa{text-decoration:line-through;color:var(--muted)}
+.rev-exp{font-size:13px;color:var(--muted);margin-top:10px;padding:10px 14px;border-left:2px solid var(--rule);font-style:italic;line-height:1.65}
+
+/* ══════════════════════════════════════════
+   CERTIFICATE (screen preview)
+══════════════════════════════════════════ */
+.cert-frame{
+  border:3px solid var(--ink);
+  padding:5px;
+  margin-bottom:20px;
+}
+.cert-inner{
+  border:1px solid var(--rule-dark);
+  padding:44px 36px;
+  text-align:center;
+  background:var(--white);
+  position:relative;
+}
+/* corner ornaments */
+.cert-inner::before,.cert-inner::after,
+.cert-corner-bl,.cert-corner-br{
+  content:'';position:absolute;
+  width:24px;height:24px;
+  border-color:var(--ink);
+}
+.cert-inner::before{top:10px;left:10px;border-top:2px solid;border-left:2px solid}
+.cert-inner::after{top:10px;right:10px;border-top:2px solid;border-right:2px solid}
+.cert-corner-bl{bottom:10px;left:10px;border-bottom:2px solid;border-left:2px solid}
+.cert-corner-br{bottom:10px;right:10px;border-bottom:2px solid;border-right:2px solid}
+
+.cert-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;display:block}
+.cert-h1{font-family:var(--serif);font-weight:700;font-size:22px;letter-spacing:.06em;margin-bottom:4px}
+.cert-platform{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-bottom:28px}
+.cert-certifies{font-size:13px;color:var(--muted);margin-bottom:8px;font-style:italic}
+.cert-name{font-family:var(--serif);font-weight:700;font-size:30px;margin-bottom:4px;letter-spacing:.02em}
+.cert-school{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:24px;letter-spacing:.06em}
+.cert-body{font-size:14px;line-height:1.9;color:var(--muted);margin-bottom:24px}
+.cert-body strong{color:var(--ink)}
+.cert-scores{display:flex;justify-content:center;gap:32px;margin-bottom:28px}
+.cs-item{text-align:center}
+.cs-val{font-family:var(--mono);font-weight:700;font-size:24px;color:var(--ink)}
+.cs-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.cert-rule{height:1px;background:var(--rule);margin:0 -36px 24px}
+.cert-footer{display:flex;justify-content:space-between;align-items:flex-end;text-align:left}
+.cert-sig-name{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.05em}
+.cert-sig-lbl{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+
+/* ══════════════════════════════════════════
+   LEADERBOARD
+══════════════════════════════════════════ */
+.lb-head{
+  display:grid;grid-template-columns:42px 1fr 70px 80px;
+  gap:8px;padding:9px 14px;
+  background:var(--ink);color:var(--paper);
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+}
+.lb-row{
+  display:grid;grid-template-columns:42px 1fr 70px 80px;
+  gap:8px;padding:12px 14px;
+  border-bottom:1px solid var(--rule);
+  font-size:13px;background:var(--white);
+  transition:background .1s;
+}
+.lb-row:hover{background:var(--faint)}
+.lb-row.me{background:var(--faint);border-left:3px solid var(--ink)}
+.lb-rank{font-family:var(--mono);font-weight:700;font-size:14px;color:var(--muted)}
+.lb-rank.top{color:var(--ink)}
+.lb-pct{font-family:var(--mono);font-weight:700;font-size:15px;color:var(--ink)}
+.lb-sub{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px}
+.my-rank-strip{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 18px;background:var(--faint);border:1px solid var(--rule-dark);
+  border-left:4px solid var(--ink);margin-bottom:16px;
+  font-family:var(--mono);font-size:12px;color:var(--muted);
+}
+.my-rank-strip strong{font-size:20px;color:var(--ink)}
+
+/* ══════════════════════════════════════════
+   ADMIN
+══════════════════════════════════════════ */
+.admin-layout{display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:start}
+@media(max-width:640px){.admin-layout{grid-template-columns:1fr}}
+.admin-nav{border:1px solid var(--rule-dark)}
+.admin-nav-item{
+  padding:12px 18px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.05em;
+  color:var(--muted);cursor:pointer;
+  border-bottom:1px solid var(--rule);
+  transition:background .1s,color .1s;
+  background:var(--white);
+  display:block;border-left:3px solid transparent;
+}
+.admin-nav-item:last-child{border-bottom:none}
+.admin-nav-item:hover{background:var(--faint);color:var(--ink)}
+.admin-nav-item.on{background:var(--faint);color:var(--ink);border-left-color:var(--ink)}
+.mcq-row{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:14px;border-bottom:1px solid var(--rule);
+  background:var(--white);
+}
+.mcq-row:hover{background:var(--faint)}
+.mcq-row-body{flex:1;min-width:0}
+.mcq-q{font-size:13px;font-weight:700;margin-bottom:5px;line-height:1.45}
+.mcq-tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:10px;padding:2px 8px;border:1px solid var(--rule-dark);color:var(--muted);letter-spacing:.04em}
+.tag.answer{border-color:var(--muted);color:var(--ink);font-weight:700}
+
+/* ══════════════════════════════════════════
+   PROFILE
+══════════════════════════════════════════ */
+.hist-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0;border-bottom:1px solid var(--rule);
+}
+.hist-row:last-child{border:none}
+.hist-subject{font-weight:700;font-size:14px;margin-bottom:2px}
+.hist-meta{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.hist-score{font-family:var(--mono);font-weight:700;font-size:18px}
+.hist-cert{font-family:var(--mono);font-size:9px;letter-spacing:.1em;padding:2px 7px;border:1px solid var(--rule-dark);color:var(--muted);cursor:pointer}
+.hist-cert:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* ══════════════════════════════════════════
+   PAGE-WISE MCQ (Exam Paper Style)
+══════════════════════════════════════════ */
+.exam-header{
+  border:2px solid var(--ink);
+  padding:20px 24px;
+  margin-bottom:28px;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:12px;
+}
+.exam-header-left .exam-title{font-family:var(--mono);font-weight:700;font-size:16px;letter-spacing:.06em;margin-bottom:3px}
+.exam-header-left .exam-sub{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em}
+.exam-header-right{display:flex;gap:16px;align-items:center}
+.exam-timer-big{
+  font-family:var(--mono);font-weight:700;font-size:28px;
+  letter-spacing:.04em;min-width:80px;text-align:center;
+}
+.exam-timer-big.urgent{animation:flicker 1s step-end infinite}
+.exam-page-info{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center}
+
+/* question block inside page view */
+.qblock{
+  border:1px solid var(--rule);
+  padding:18px 20px;
+  margin-bottom:12px;
+  background:var(--white);
+  page-break-inside:avoid;
+}
+.qblock-num{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.qblock-stem{font-size:15px;font-weight:700;line-height:1.55;margin-bottom:14px}
+.qblock-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:480px){.qblock-opts{grid-template-columns:1fr}}
+.qblock-opt{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 13px;
+  border:1px solid var(--rule-dark);
+  cursor:pointer;
+  font-size:14px;line-height:1.4;
+  background:var(--white);
+  transition:border-color .1s,background .1s;
+}
+.qblock-opt:hover{border-color:var(--ink);background:var(--faint)}
+.qblock-opt.picked{border-color:var(--ink);background:var(--faint);border-width:2px}
+.qblock-opt.correct-ans{border-color:var(--ink);background:var(--faint);border-width:2px}
+.qblock-opt.wrong-ans{border-color:var(--rule);opacity:.4}
+.qblock-opt-key{
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  width:22px;height:22px;min-width:22px;
+  border:1px solid var(--rule-dark);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .1s;flex-shrink:0;margin-top:1px;
+}
+.qblock-opt.picked .qblock-opt-key{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.qblock-opt.correct-ans .qblock-opt-key{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.qblock-exp{margin-top:10px;padding:9px 13px;border-left:2px solid var(--rule-dark);font-size:12px;color:var(--muted);font-style:italic;line-height:1.6;display:none}
+.qblock.show-exp .qblock-exp{display:block}
+
+/* answer grid (bubble sheet style) */
+.answer-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:6px;
+  margin-bottom:20px;
+}
+.ag-cell{
+  border:1px solid var(--rule);padding:6px 10px;
+  font-family:var(--mono);font-size:11px;
+  display:flex;align-items:center;gap:8px;
+  background:var(--white);
+}
+.ag-num{color:var(--muted);min-width:22px}
+.ag-ans{font-weight:700;color:var(--ink)}
+.ag-blank{color:var(--rule-dark)}
+
+/* page nav bar */
+.page-nav{
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;margin:24px 0;flex-wrap:wrap;
+}
+.pnav-btn{
+  font-family:var(--mono);font-size:12px;font-weight:700;
+  padding:8px 16px;border:1px solid var(--rule-dark);
+  background:var(--white);cursor:pointer;
+  transition:all .12s;letter-spacing:.04em;
+}
+.pnav-btn:hover{border-color:var(--ink);background:var(--faint)}
+.pnav-btn.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.pnav-btn:disabled{opacity:.3;cursor:not-allowed}
+.pnav-dots{font-family:var(--mono);font-size:11px;color:var(--muted);padding:0 4px}
+
+/* answered summary bar */
+.ans-summary{
+  display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;
+}
+.ans-bubble{
+  width:28px;height:28px;border:1px solid var(--rule-dark);
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .1s;
+}
+.ans-bubble.done{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.ans-bubble.current{border-color:var(--ink);border-width:2px}
+
+/* ══════════════════════════════════════════
+   MISC UTILITIES
+══════════════════════════════════════════ */
+.toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:var(--ink);color:var(--paper);
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;
+  padding:10px 22px;z-index:9999;
+  opacity:0;transition:opacity .2s;pointer-events:none;
+  white-space:nowrap;max-width:92vw;text-align:center;
+}
+.toast.show{opacity:1}
+.spinner{
+  width:28px;height:28px;border:2px solid var(--rule);
+  border-top-color:var(--ink);border-radius:50%;
+  animation:spin .65s linear infinite;margin:40px auto;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty-state{
+  padding:48px 20px;text-align:center;
+  font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;
+}
+.badge{
+  display:inline-block;
+  font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  padding:3px 9px;border:1px solid var(--rule-dark);color:var(--muted);
+  margin-left:8px;vertical-align:middle;
+}
+</style>
+</head>
+<body>
+
+<!-- ════ TOP BAR ════ -->
+<header class="topbar">
+  <div class="topbar-brand">
+    TN·MCQ
+    <small>Tamil Nadu Board Platform</small>
+  </div>
+  <div class="topbar-right">
+    <span class="topbar-user" id="tb-user"></span>
+    <button class="tbtn" id="tb-btn" style="display:none" onclick="tbAction()"></button>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════
+  PAGE: LOGIN
+════════════════════════════════════ -->
+<div class="page on" id="pg-login">
+<div class="sheet">
+  <span class="eyebrow" style="margin-top:40px;display:block">Tamil Nadu Board · Physics</span>
+  <h1 class="display">MCQ Practice<br><em>Platform</em></h1>
+  <p class="lead">Class 10 · 11 · 12 — Physics topic-wise timed tests with downloadable certificates.</p>
+
+  <div id="login-err" class="err-box"></div>
+
+  <!-- Register fields (hidden by default) -->
+  <div id="reg-extra" style="display:none">
+    <div class="field">
+      <label>Full Name *</label>
+      <input id="r-name" placeholder="Arun Kumar" autocomplete="name">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Phone *</label>
+        <input id="r-phone" placeholder="9876543210" type="tel">
+      </div>
+      <div class="field">
+        <label>Class</label>
+        <select id="r-class">
+          <option value="">—</option>
+          <option value="X">Class 10</option>
+          <option value="XI">Class 11</option>
+          <option value="XII">Class 12</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>School</label>
+        <input id="r-school" placeholder="Govt. HSS">
+      </div>
+      <div class="field">
+        <label>District</label>
+        <input id="r-district" placeholder="Chennai">
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Email *</label>
+    <input id="l-email" type="email" placeholder="student@example.com" autocomplete="email">
+  </div>
+  <div class="field">
+    <label>Password *</label>
+    <input id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password">
+  </div>
+
+  <button class="btn btn-ink" id="auth-btn" onclick="doAuth()">Login</button>
+
+  <div class="hr"></div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <div id="auth-switch-wrap" style="font-size:14px;color:var(--muted)">
+      New student? <button onclick="toggleMode()" style="background:none;border:none;cursor:pointer;font-family:var(--serif);font-size:14px;text-decoration:underline;color:var(--ink)">Create account</button>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="adminEntry()">Admin login →</button>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+  PAGE: HOME (Student)
+════════════════════════════════════ -->
+<div class="page" id="pg-home">
+<div class="sheet">
+  <div style="margin-top:32px;margin-bottom:32px">
+    <span class="eyebrow" id="home-eyebrow">Select your class</span>
+    <h2 style="font-family:var(--serif);font-size:26px;font-weight:700;margin-bottom:6px">Choose a Topic</h2>
+    <p style="font-size:14px;color:var(--muted)">Select class and unit to begin a timed MCQ test.</p>
+  </div>
+
+  <div class="class-tabs" id="class-tabs">
+    <button class="ctab on" onclick="switchClass('X',this)">Class 10</button>
+    <button class="ctab" onclick="switchClass('XI',this)">Class 11</button>
+    <button class="ctab" onclick="switchClass('XII',this)">Class 12</button>
+  </div>
+
+  <div id="unit-list"></div>
+
+  <div class="hr"></div>
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="go('leaderboard')">Leaderboard</button>
+    <button class="btn btn-outline" onclick="go('profile')">My Profile</button>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+  PAGE: TEST CHOOSER
+════════════════════════════════════ -->
+<div class="page" id="pg-chooser">
+<div class="sheet">
+  <div style="margin-top:32px;margin-bottom:28px">
+    <span class="eyebrow" id="chooser-eyebrow"></span>
+    <h2 style="font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:4px" id="chooser-title"></h2>
+    <p style="font-family:var(--mono);font-size:12px;color:var(--muted)" id="chooser-avail"></p>
+  </div>
+
+  <div class="field">
+    <label>Number of Questions</label>
+    <select id="ch-qn">
+      <option value="10">10 questions</option>
+      <option value="25">25 questions</option>
+      <option value="50" selected>50 questions</option>
+      <option value="100">100 questions</option>
+      <option value="all">All questions</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Time Limit</label>
+    <select id="ch-time" onchange="timePresetChange()">
+      <option value="600">10 minutes</option>
+      <option value="900">15 minutes</option>
+      <option value="1800" selected>30 minutes</option>
+      <option value="2700">45 minutes</option>
+      <option value="3600">60 minutes</option>
+      <option value="0">No time limit</option>
+      <option value="custom">Custom →</option>
+    </select>
+  </div>
+
+  <div id="custom-time" style="display:none">
+    <div class="field-row">
+      <div class="field">
+        <label>Minutes</label>
+        <input type="number" id="ch-mins" value="20" min="0" max="300" oninput="updateSummary()">
+      </div>
+      <div class="field">
+        <label>Seconds</label>
+        <input type="number" id="ch-secs" value="0" min="0" max="59" oninput="updateSummary()">
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Question Order</label>
+    <select id="ch-order">
+      <option value="shuffle">Shuffled (recommended)</option>
+      <option value="serial">In order</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Test Mode</label>
+    <select id="ch-mode">
+      <option value="single">One-by-one (standard)</option>
+      <option value="page">Page-wise (exam paper style)</option>
+    </select>
+  </div>
+
+  <div id="pgsize-wrap" style="display:none">
+    <div class="field">
+      <label>Questions per Page</label>
+      <select id="ch-pgsize">
+        <option value="5">5 per page</option>
+        <option value="10" selected>10 per page</option>
+        <option value="15">15 per page</option>
+        <option value="20">20 per page</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="background:var(--faint);border:1px solid var(--rule-dark);padding:14px 18px;margin-bottom:24px;font-family:var(--mono);font-size:12px;line-height:1.9;color:var(--muted)" id="test-summary"></div>
+
+  <button class="btn btn-ink" onclick="startTest()">Begin Test →</button>
+  <div style="height:10px"></div>
+  <button class="btn btn-ghost" onclick="go('home')">← Back</button>
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+  PAGE: QUIZ
+════════════════════════════════════ -->
+<div class="page" id="pg-quiz">
+<div class="sheet">
+  <div class="quiz-meta" style="margin-top:20px">
+    <div class="qmeta-prog">
+      <div class="qmeta-label" id="q-label">Question 1 of 50</div>
+      <div class="qmeta-bar"><div class="qmeta-fill" id="q-bar" style="width:2%"></div></div>
+    </div>
+    <div class="qmeta-timer" id="q-timer">30:00</div>
+  </div>
+
+  <div class="q-number" id="q-num">Q · 1</div>
+  <div class="q-stem" id="q-stem"></div>
+  <div class="choices" id="q-choices"></div>
+
+  <div class="q-nav">
+    <button class="btn btn-outline btn-sm" id="btn-prev" onclick="qPrev()">← Prev</button>
+    <span class="q-answered" id="q-answered">0 / 50 answered</span>
+    <button class="btn btn-ink btn-sm" id="btn-next" onclick="qNext()">Next →</button>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+  PAGE: RESULT
+════════════════════════════════════ -->
+<div class="page" id="pg-result">
+<div class="sheet">
+  <div class="result-banner" style="margin-top:32px">
+    <div class="result-pct" id="r-pct">—</div>
+    <div class="result-tag">Final Score</div>
+    <div class="result-verdict" id="r-verdict"></div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-cell"><div class="stat-num" id="r-correct">0</div><div class="stat-lbl">Correct</div></div>
+    <div class="stat-cell"><div class="stat-num" id="r-wrong">0</div><div class="stat-lbl">Wrong</div></div>
+    <div class="stat-cell"><div class="stat-num" id="r-time">—</div><div class="stat-lbl">Time</div></div>
+  </div>
+
+  <!-- Certificate preview (shown on pass) -->
+  <div id="cert-section" style="display:none">
+    <div class="cert-frame"><div class="cert-inner" id="cert-preview">
+      <div class="cert-corner-bl"></div><div class="cert-corner-br"></div>
+    </div></div>
+    <button class="btn btn-ink" onclick="dlCert()">⬇ Download Certificate</button>
+    <div style="height:12px"></div>
+  </div>
+
+  <div class="btn-row" style="margin-bottom:12px">
+    <button class="btn btn-outline" onclick="retake()">↺ Retake</button>
+    <button class="btn btn-outline" onclick="go('leaderboard')">Leaderboard</button>
+  </div>
+
+  <!-- Result tabs -->
+  <div class="class-tabs" style="margin-bottom:16px">
+    <button class="ctab on" id="rtab-sum-btn" onclick="rTab('sum')">Summary</button>
+    <button class="ctab" id="rtab-rev-btn" onclick="rTab('rev')">Review</button>
+  </div>
+  <div id="rtab-sum">
+    <button class="btn btn-ghost" onclick="go('home')">← Home</button>
+  </div>
+  <div id="rtab-rev" style="display:none">
+    <div id="review-list"></div>
+    <button class="btn btn-ghost" onclick="go('home')">← Home</button>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+  PAGE: LEADERBOARD
+════════════════════════════════════ -->
+<div class="page" id="pg-leaderboard">
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;margin:32px 0 24px">
+    <div>
+      <span class="eyebrow">Global</span>
+      <h2 class="section" style="border:none;padding:0;margin:0">Leaderboard</h2>
+    </div>
+    <button class="tbtn" onclick="go('home')">← Back</button>
+  </div>
+  <div id="lb-myrank" style="display:none" class="my-rank-strip">
+    Your rank <strong id="lb-rank">#—</strong> <span id="lb-of"></span>
+  </div>
+  <div style="border:1px solid var(--rule-dark);overflow:hidden">
+    <div class="lb-head"><div>Rank</div><div>Student</div><div>Score</div><div>Topic</div></div>
+    <div id="lb-body"><div class="spinner"></div></div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+  PAGE: PROFILE
+════════════════════════════════════ -->
+<div class="page" id="pg-profile">
+<div class="sheet">
+  <div style="margin:32px 0 28px">
+    <span class="eyebrow">Student</span>
+    <h2 class="section" style="border-bottom:none;padding:0" id="p-name">—</h2>
+    <p style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:4px" id="p-meta">—</p>
+  </div>
+  <h2 class="section">Attempt History</h2>
+  <div id="p-history"><div class="empty-state">No attempts yet</div></div>
+  <div class="hr"></div>
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="go('home')">← Home</button>
+    <button class="btn btn-ghost" onclick="logout()">Logout</button>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+  PAGE: ADMIN
+════════════════════════════════════ -->
+<div class="page" id="pg-admin">
+<div class="sheet-wide" style="padding-top:32px">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px">
+    <div>
+      <span class="eyebrow">Administrator</span>
+      <h2 class="section" style="border:none;padding:0;margin:0;font-size:22px">Dashboard</h2>
+    </div>
+    <button class="tbtn" onclick="logout()">Logout</button>
+  </div>
+
+  <div class="admin-layout">
+    <!-- sidebar nav -->
+    <div class="admin-nav">
+      <div class="admin-nav-item on" onclick="aTab('add',this)">＋ Add MCQ</div>
+      <div class="admin-nav-item" onclick="aTab('bulk',this)">⇪ Bulk Import</div>
+      <div class="admin-nav-item" onclick="aTab('manage',this)">≡ Manage MCQs</div>
+      <div class="admin-nav-item" onclick="aTab('students',this)">◉ Students</div>
+      <div class="admin-nav-item" onclick="aTab('stats',this)">▦ Stats</div>
+    </div>
+
+    <!-- tab panels -->
+    <div>
+      <!-- ADD MCQ -->
+      <div id="at-add">
+        <h2 class="section">Add New MCQ</h2>
+        <div class="field-row">
+          <div class="field">
+            <label>Class</label>
+            <select id="a-class" onchange="fillUnits('a-unit','a-class')">
+              <option value="X">Class 10</option>
+              <option value="XI">Class 11</option>
+              <option value="XII">Class 12</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Unit / Topic</label>
+            <select id="a-unit"></select>
+          </div>
+        </div>
+        <div class="field"><label>Question *</label><textarea id="a-q" placeholder="Type the full question text here..."></textarea></div>
+        <div class="field"><label>Option A *</label><input id="a-oa" placeholder="Option A"></div>
+        <div class="field"><label>Option B *</label><input id="a-ob" placeholder="Option B"></div>
+        <div class="field"><label>Option C *</label><input id="a-oc" placeholder="Option C"></div>
+        <div class="field"><label>Option D *</label><input id="a-od" placeholder="Option D"></div>
+        <div class="field">
+          <label>Correct Answer *</label>
+          <select id="a-ans">
+            <option value="0">A</option><option value="1">B</option>
+            <option value="2">C</option><option value="3">D</option>
+          </select>
+        </div>
+        <div class="field"><label>Explanation (optional)</label><input id="a-exp" placeholder="Brief explanation of the answer"></div>
+        <button class="btn btn-ink" onclick="addOne()">Save MCQ →</button>
+      </div>
+
+      <!-- BULK IMPORT -->
+      <div id="at-bulk" style="display:none">
+        <h2 class="section">Import MCQs from File</h2>
+
+        <!-- Format tabs -->
+        <div class="class-tabs" style="margin-bottom:20px" id="import-tabs">
+          <button class="ctab on" onclick="importTab('file',this)">📄 Upload File</button>
+          <button class="ctab" onclick="importTab('text',this)">📝 Paste Text</button>
+          <button class="ctab" onclick="importTab('json',this)">{ } JSON</button>
+        </div>
+
+        <!-- FILE UPLOAD TAB -->
+        <div id="itab-file">
+          <div style="background:var(--faint);border:1px solid var(--rule-dark);padding:16px;margin-bottom:16px;font-family:var(--mono);font-size:11px;line-height:2;color:var(--muted)">
+            Supported: <strong style="color:var(--ink)">.txt &nbsp; .doc &nbsp; .docx &nbsp; .pdf</strong><br>
+            Questions are auto-detected from numbered formats.<br>
+            Each question must follow: <code style="color:var(--ink)">1. Question text</code><br>
+            Options: <code style="color:var(--ink)">A) ... &nbsp; B) ... &nbsp; C) ... &nbsp; D) ...</code><br>
+            Answer: <code style="color:var(--ink)">Answer: B</code> &nbsp; (or <code style="color:var(--ink)">Ans: B</code>)<br>
+            Explanation: <code style="color:var(--ink)">Explanation: ...</code> &nbsp;(optional)
+          </div>
+
+          <!-- Drop zone -->
+          <div id="drop-zone" style="border:2px dashed var(--rule-dark);padding:36px 20px;text-align:center;cursor:pointer;margin-bottom:16px;transition:border-color .15s;background:var(--white)"
+            onclick="document.getElementById('file-input').click()"
+            ondragover="event.preventDefault();this.style.borderColor='var(--ink)'"
+            ondragleave="this.style.borderColor='var(--rule-dark)'"
+            ondrop="handleFileDrop(event)">
+            <div style="font-size:32px;margin-bottom:10px">📂</div>
+            <div style="font-family:var(--mono);font-size:13px;font-weight:700;margin-bottom:5px">Click to upload or drag & drop</div>
+            <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">.txt · .doc · .docx · .pdf</div>
+          </div>
+          <input type="file" id="file-input" accept=".txt,.doc,.docx,.pdf" style="display:none" onchange="handleFileSelect(event)">
+
+          <!-- assign class/unit -->
+          <div class="field-row">
+            <div class="field">
+              <label>Assign to Class</label>
+              <select id="imp-class" onchange="fillUnits('imp-unit','imp-class')">
+                <option value="X">Class 10</option>
+                <option value="XI">Class 11</option>
+                <option value="XII">Class 12</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Assign to Unit</label>
+              <select id="imp-unit"></select>
+            </div>
+          </div>
+
+          <!-- preview -->
+          <div id="file-preview" style="display:none">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+              <div style="font-family:var(--mono);font-size:12px;font-weight:700" id="preview-title">Detected 0 questions</div>
+              <button class="btn btn-ghost btn-sm" onclick="clearFilePreview()">Clear</button>
+            </div>
+            <div id="preview-list" style="max-height:340px;overflow-y:auto;border:1px solid var(--rule-dark)"></div>
+            <div style="height:14px"></div>
+            <button class="btn btn-ink" onclick="importParsed()">Import All Detected MCQs →</button>
+          </div>
+        </div>
+
+        <!-- PASTE TEXT TAB -->
+        <div id="itab-text" style="display:none">
+          <div style="background:var(--faint);border:1px solid var(--rule-dark);padding:14px;margin-bottom:14px;font-family:var(--mono);font-size:11px;line-height:2;color:var(--muted)">
+            Paste raw text from a Word doc, PDF copy, or type directly.<br>
+            Format each question as:<br>
+            <code style="color:var(--ink)">1. Question text</code><br>
+            <code style="color:var(--ink)">A) Option A &nbsp; B) Option B &nbsp; C) Option C &nbsp; D) Option D</code><br>
+            <code style="color:var(--ink)">Answer: C</code>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Class</label>
+              <select id="txt-class" onchange="fillUnits('txt-unit','txt-class')">
+                <option value="X">Class 10</option><option value="XI">Class 11</option><option value="XII">Class 12</option>
+              </select>
+            </div>
+            <div class="field"><label>Unit</label><select id="txt-unit"></select></div>
+          </div>
+          <div class="field">
+            <label>Paste Text Here</label>
+            <textarea id="paste-text" style="min-height:200px;font-family:var(--mono);font-size:12px;line-height:1.7" placeholder="1. What is Newton's first law?
+A) F = ma
+B) Every action has equal and opposite reaction
+C) A body remains at rest unless acted upon by force
+D) None of the above
+Answer: C
+Explanation: Newton's first law is the law of inertia.
+
+2. ..."></textarea>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-outline" onclick="previewPasteText()">Preview Detected MCQs</button>
+            <button class="btn btn-ink" onclick="importPasteText()">Import →</button>
+          </div>
+          <div id="paste-preview" style="margin-top:14px;display:none">
+            <div style="font-family:var(--mono);font-size:12px;font-weight:700;margin-bottom:8px" id="paste-preview-title"></div>
+            <div id="paste-preview-list" style="max-height:280px;overflow-y:auto;border:1px solid var(--rule-dark)"></div>
+          </div>
+        </div>
+
+        <!-- JSON TAB -->
+        <div id="itab-json" style="display:none">
+          <div style="background:var(--faint);border:1px solid var(--rule-dark);padding:14px;margin-bottom:14px;font-family:var(--mono);font-size:11px;line-height:2;color:var(--muted)">
+            Paste a JSON array. Each item:<br>
+            <code style="color:var(--ink)">{"cls":"X","unit":"Unit 1 — Laws of Motion","q":"?","opts":["A","B","C","D"],"ans":0,"exp":"optional"}</code>
+          </div>
+          <div class="field">
+            <label>JSON Array</label>
+            <textarea id="bulk-json" style="min-height:160px;font-family:var(--mono);font-size:11px" placeholder='[{"cls":"X","unit":"Unit 1 — Laws of Motion","q":"What is inertia?","opts":["...","...","...","..."],"ans":0}]'></textarea>
+          </div>
+          <button class="btn btn-ink" onclick="doBulk()">Import JSON →</button>
+        </div>
+
+        <!-- import log -->
+        <div id="import-log" style="display:none;margin-top:16px;padding:12px 16px;border:1px solid var(--rule-dark);background:var(--faint);font-family:var(--mono);font-size:12px;line-height:1.9"></div>
+      </div>
+
+      <!-- MANAGE -->
+      <div id="at-manage" style="display:none">
+        <h2 class="section">Manage MCQs</h2>
+        <div class="field-row" style="margin-bottom:16px">
+          <div class="field" style="margin:0"><select id="m-class" onchange="fillUnits('m-unit','m-class');renderManage()"><option value="X">Class 10</option><option value="XI">Class 11</option><option value="XII">Class 12</option></select></div>
+          <div class="field" style="margin:0"><select id="m-unit" onchange="renderManage()"></select></div>
+        </div>
+        <div id="manage-list"></div>
+      </div>
+
+      <!-- STUDENTS -->
+      <div id="at-students" style="display:none">
+        <h2 class="section">Registered Students</h2>
+        <div id="students-list"></div>
+      </div>
+
+      <!-- STATS -->
+      <div id="at-stats" style="display:none">
+        <h2 class="section">Platform Stats</h2>
+        <div id="stats-body"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+  PAGE: PAGE-WISE QUIZ (Exam Paper Mode)
+════════════════════════════════════ -->
+<div class="page" id="pg-pagequiz">
+<div class="sheet" style="max-width:720px">
+
+  <!-- exam header bar -->
+  <div class="exam-header" style="margin-top:20px">
+    <div class="exam-header-left">
+      <div class="exam-title" id="pq-title">Unit 1 — Laws of Motion</div>
+      <div class="exam-sub" id="pq-sub">Class 10 &nbsp;·&nbsp; Page 1 of 5</div>
+    </div>
+    <div class="exam-header-right">
+      <div>
+        <div class="exam-timer-big" id="pq-timer">30:00</div>
+        <div class="exam-page-info" id="pq-page-info">Page 1 / 5</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- answered bubbles (mini overview) -->
+  <div style="margin-bottom:16px">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Answered Overview</div>
+    <div class="ans-summary" id="pq-bubbles"></div>
+  </div>
+
+  <!-- questions for this page -->
+  <div id="pq-questions"></div>
+
+  <!-- page navigation -->
+  <div class="page-nav" id="pq-page-nav"></div>
+
+  <!-- bottom actions -->
+  <div style="display:flex;gap:10px;margin-top:8px">
+    <button class="btn btn-outline" id="pq-prev-page" onclick="pqChangePage(-1)">← Prev Page</button>
+    <button class="btn btn-ink" id="pq-next-page" onclick="pqChangePage(1)">Next Page →</button>
+  </div>
+  <div style="height:12px"></div>
+  <button class="btn btn-ghost" id="pq-submit-btn" onclick="pqSubmit()" style="display:none">✓ Submit All Answers</button>
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+  PAGE: PAGE-WISE RESULT
+════════════════════════════════════ -->
+<div class="page" id="pg-pageresult">
+<div class="sheet">
+  <div class="result-banner" style="margin-top:32px">
+    <div class="result-pct" id="pr-pct">—</div>
+    <div class="result-tag">Final Score</div>
+    <div class="result-verdict" id="pr-verdict"></div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-cell"><div class="stat-num" id="pr-correct">0</div><div class="stat-lbl">Correct</div></div>
+    <div class="stat-cell"><div class="stat-num" id="pr-wrong">0</div><div class="stat-lbl">Wrong</div></div>
+    <div class="stat-cell"><div class="stat-num" id="pr-time">—</div><div class="stat-lbl">Time</div></div>
+  </div>
+
+  <!-- Answer Key -->
+  <h2 class="section" style="font-size:16px">Answer Key</h2>
+  <div class="answer-grid" id="pr-answer-grid" style="margin-bottom:24px"></div>
+
+  <!-- cert -->
+  <div id="pr-cert-section" style="display:none">
+    <div class="cert-frame"><div class="cert-inner" id="pr-cert-preview">
+      <div class="cert-corner-bl"></div><div class="cert-corner-br"></div>
+    </div></div>
+    <button class="btn btn-ink" onclick="dlCertPR()">⬇ Download Certificate</button>
+    <div style="height:12px"></div>
+  </div>
+
+  <div class="btn-row" style="margin-bottom:12px">
+    <button class="btn btn-outline" onclick="pqRetake()">↺ Retake</button>
+    <button class="btn btn-outline" onclick="go('leaderboard')">Leaderboard</button>
+  </div>
+
+  <!-- detailed review -->
+  <div class="class-tabs" style="margin-bottom:16px">
+    <button class="ctab on" id="prt-sum-btn" onclick="prTab('sum')">Summary</button>
+    <button class="ctab" id="prt-rev-btn" onclick="prTab('rev')">Full Review</button>
+  </div>
+  <div id="prtab-sum">
+    <button class="btn btn-ghost" onclick="go('home')">← Home</button>
+  </div>
+  <div id="prtab-rev" style="display:none">
+    <div id="pr-review-list"></div>
+    <button class="btn btn-ghost" onclick="go('home')">← Home</button>
+  </div>
+</div>
+</div>
+
+<!-- toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ════════════════════════════════════════
+   CURRICULUM DATA
+════════════════════════════════════════ */
+/* Subject: Physics only — Classes 10, 11, 12 */
+const CUR = {
+  X:[
+    'Unit 1 — Laws of Motion',
+    'Unit 2 — Optics',
+    'Unit 3 — Thermal Physics',
+    'Unit 4 — Electricity',
+    'Unit 5 — Acoustics',
+    'Unit 6 — Nuclear Physics'
+  ],
+  XI:[
+    'Unit 1 — Nature of Physical World and Measurement',
+    'Unit 2 — Kinematics',
+    'Unit 3 — Laws of Motion',
+    'Unit 4 — Work, Energy and Power',
+    'Unit 5 — Motion of System of Particles and Rigid Bodies',
+    'Unit 6 — Gravitation',
+    'Unit 7 — Properties of Matter',
+    'Unit 8 — Heat and Thermodynamics',
+    'Unit 9 — Kinetic Theory of Gases',
+    'Unit 10 — Oscillations',
+    'Unit 11 — Waves'
+  ],
+  XII:[
+    'Unit 1 — Electrostatics',
+    'Unit 2 — Current Electricity',
+    'Unit 3 — Magnetism and Magnetic Effects of Electric Current',
+    'Unit 4 — Electromagnetic Induction and Alternating Current',
+    'Unit 5 — Electromagnetic Waves and Wave Optics',
+    'Unit 6 — Ray Optics',
+    'Unit 7 — Dual Nature of Radiation and Matter',
+    'Unit 8 — Atomic and Nuclear Physics',
+    'Unit 9 — Semiconductor Electronics',
+    'Unit 10 — Communication Systems',
+    'Unit 11 — Recent Developments in Physics'
+  ]
+};
+
+const KEYS = ['A','B','C','D','E'];
+const ADMIN_PWD = 'admin123';
+
+/* ════════════════════════════════════════
+   LOCAL STORAGE HELPERS
+════════════════════════════════════════ */
+const LS = {
+  get: k => { try{return JSON.parse(localStorage.getItem(k))}catch(e){return null} },
+  set: (k,v) => { try{localStorage.setItem(k,JSON.stringify(v))}catch(e){} },
+  del: k => { try{localStorage.removeItem(k)}catch(e){} }
+};
+
+/* MCQs: stored as { X:{unit:[{id,q,opts,ans,exp}]}, XI:{...}, XII:{...} } */
+function getMCQs(cls,unit){ const d=LS.get('mcqdb')||{}; return d[cls]&&d[cls][unit] ? d[cls][unit] : []; }
+function getAllDB(){ return LS.get('mcqdb')||{}; }
+function saveDB(db){ LS.set('mcqdb',db); }
+function addMCQtoDB(cls,unit,item){
+  const db=getAllDB();
+  if(!db[cls]) db[cls]={};
+  if(!db[cls][unit]) db[cls][unit]=[];
+  item.id = Date.now()+'_'+Math.random().toString(36).slice(2,5);
+  db[cls][unit].push(item);
+  saveDB(db);
+}
+function delMCQfromDB(cls,unit,id){
+  const db=getAllDB();
+  if(db[cls]&&db[cls][unit]) db[cls][unit]=db[cls][unit].filter(q=>q.id!==id);
+  saveDB(db);
+}
+function countUnit(cls,unit){ return getMCQs(cls,unit).length; }
+function countClass(cls){ const db=getAllDB(); let t=0; if(db[cls]) Object.values(db[cls]).forEach(a=>t+=a.length); return t; }
+function totalMCQs(){ let t=0; ['X','XI','XII'].forEach(c=>t+=countClass(c)); return t; }
+const CLS_LABEL = { X:'Class 10', XI:'Class 11', XII:'Class 12' };
+
+/* Users */
+function getUsers(){ return LS.get('users')||{}; }
+function setUsers(u){ LS.set('users',u); }
+/* Attempts */
+function getAttempts(){ return LS.get('attempts')||[]; }
+function setAttempts(a){ LS.set('attempts',a); }
+
+/* ════════════════════════════════════════
+   AUTH
+════════════════════════════════════════ */
+let CU = null; // current user
+let isReg = false;
+
+function boot(){
+  CU = LS.get('sess');
+  updateTopbar();
+  if(CU){
+    if(CU.role==='admin'){ initAdmin(); go('admin'); }
+    else { initHome(); go('home'); }
+  }
+  // pre-fill admin selects
+  fillUnits('a-unit','a-class');
+  fillUnits('m-unit','m-class');
+}
+
+function updateTopbar(){
+  const u = document.getElementById('tb-user');
+  const b = document.getElementById('tb-btn');
+  if(CU){ u.textContent=CU.name; b.textContent='Logout'; b.style.display='block'; }
+  else { u.textContent=''; b.style.display='none'; }
+}
+function tbAction(){ logout(); }
+function logout(){ CU=null; LS.del('sess'); updateTopbar(); go('login'); }
+
+function toggleMode(){
+  isReg=!isReg;
+  document.getElementById('reg-extra').style.display=isReg?'block':'none';
+  document.getElementById('auth-btn').textContent=isReg?'Create Account':'Login';
+  document.getElementById('auth-switch-wrap').innerHTML=isReg
+    ? 'Already registered? <button onclick="toggleMode()" style="background:none;border:none;cursor:pointer;font-family:var(--serif);font-size:14px;text-decoration:underline;color:var(--ink)">Login here</button>'
+    : 'New student? <button onclick="toggleMode()" style="background:none;border:none;cursor:pointer;font-family:var(--serif);font-size:14px;text-decoration:underline;color:var(--ink)">Create account</button>';
+  document.getElementById('login-err').style.display='none';
+}
+
+function doAuth(){
+  const email = (document.getElementById('l-email').value||'').trim().toLowerCase();
+  const pass = document.getElementById('l-pass').value;
+  const err = document.getElementById('login-err');
+  err.style.display='none';
+  if(!email||!pass){ showErr(err,'Please enter your email and password.'); return; }
+  const users = getUsers();
+  if(isReg){
+    const name = document.getElementById('r-name').value.trim();
+    const phone = document.getElementById('r-phone').value.trim();
+    if(!name||!phone){ showErr(err,'Name and phone are required.'); return; }
+    if(users[email]){ showErr(err,'Email already registered. Please login.'); return; }
+    const u = {
+      email,pass,name,phone,role:'student',
+      cls:document.getElementById('r-class').value,
+      school:document.getElementById('r-school').value.trim(),
+      district:document.getElementById('r-district').value.trim(),
+      history:[]
+    };
+    users[email]=u; setUsers(users); CU=u; LS.set('sess',u);
+  } else {
+    const u = users[email];
+    if(!u){ showErr(err,'No account found. Please register first.'); return; }
+    if(u.pass!==pass){ showErr(err,'Incorrect password.'); return; }
+    CU=u; LS.set('sess',u);
+  }
+  updateTopbar(); initHome(); go('home');
+  toast('Welcome, '+CU.name.split(' ')[0]+'!');
+}
+
+function adminEntry(){
+  const p = prompt('Enter admin password:');
+  if(p===null) return;
+  if(p!==ADMIN_PWD){ toast('Wrong password.'); return; }
+  CU={name:'Administrator',email:'__admin__',role:'admin'};
+  LS.set('sess',CU); updateTopbar(); initAdmin(); go('admin');
+  toast('Admin access granted.');
+}
+
+function showErr(el,msg){ el.textContent=msg; el.style.display='block'; }
+
+/* ════════════════════════════════════════
+   PAGE NAV
+════════════════════════════════════════ */
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  const pg = document.getElementById('pg-'+id);
+  if(pg) pg.classList.add('on');
+  window.scrollTo(0,0);
+  if(id==='leaderboard') buildLeaderboard();
+  if(id==='profile') buildProfile();
+}
+
+/* ════════════════════════════════════════
+   HOME
+════════════════════════════════════════ */
+let selClass = 'X';
+
+function initHome(){
+  selClass = CU&&CU.cls ? CU.cls : 'X';
+  // sync tabs
+  document.querySelectorAll('.ctab').forEach(t=>{
+    if(t.getAttribute('onclick') && t.getAttribute('onclick').includes("'"+selClass+"'"))
+      t.classList.add('on');
+    else t.classList.remove('on');
+  });
+  renderUnits();
+}
+
+function switchClass(cls,el){
+  selClass=cls;
+  document.querySelectorAll('#class-tabs .ctab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  renderUnits();
+}
+
+function renderUnits(){
+  const units = CUR[selClass];
+  const list = document.getElementById('unit-list');
+  document.getElementById('home-eyebrow').textContent = 'Class '+selClass+' — '+units.length+' Units';
+  list.innerHTML = units.map((u,i)=>{
+    const n = countUnit(selClass,u);
+    return `<div class="unit-card" onclick="openChooser('${selClass}','${u.replace(/'/g,"\\'")}')">
+      <div class="unit-card-left">
+        <div class="unit-name">${u}</div>
+        <div class="unit-sub">${CLS_LABEL[selClass]} &nbsp;·&nbsp; ${n} MCQ${n!==1?'s':''}</div>
+      </div>
+      <div class="unit-card-right">
+        <span class="unit-count">${n} Q</span>
+        <span class="unit-arrow">›</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ════════════════════════════════════════
+   TEST CHOOSER
+════════════════════════════════════════ */
+let chCls='', chUnit='';
+
+function openChooser(cls,unit){
+  const n = countUnit(cls,unit);
+  if(n===0){ toast('No MCQs available for this topic yet.'); return; }
+  chCls=cls; chUnit=unit;
+  document.getElementById('chooser-eyebrow').textContent='Class '+cls+' — Test Setup';
+  document.getElementById('chooser-title').textContent=unit;
+  document.getElementById('chooser-avail').textContent=n+' questions available';
+  // update "All" label
+  const sel=document.getElementById('ch-qn');
+  sel.options[sel.options.length-1].text='All '+n+' questions';
+  updateSummary();
+  go('chooser');
+}
+
+function timePresetChange(){
+  const v = document.getElementById('ch-time').value;
+  document.getElementById('custom-time').style.display=v==='custom'?'block':'none';
+  updateSummary();
+}
+
+function updateSummary(){
+  const qv = document.getElementById('ch-qn').value;
+  const tv = document.getElementById('ch-time').value;
+  const mode = document.getElementById('ch-mode').value;
+  const n = countUnit(chCls,chUnit);
+  const qn = qv==='all'?n:Math.min(parseInt(qv),n);
+  let timeStr='No limit';
+  if(tv==='custom'){
+    const m=parseInt(document.getElementById('ch-mins').value)||0;
+    const s=parseInt(document.getElementById('ch-secs').value)||0;
+    const tot=m*60+s;
+    timeStr=tot>0?(m>0?m+' min ':'')+  (s>0?s+' sec':''):'No limit';
+  } else if(tv!=='0'){
+    const secs=parseInt(tv);
+    const m=Math.floor(secs/60),s=secs%60;
+    timeStr=m+'min'+(s?' '+s+'sec':'');
+  }
+  const pgSel = document.getElementById('ch-pgsize');
+  const modeStr = mode==='page' ? 'Page-wise ('+pgSel.value+' per page)' : 'One-by-one';
+  document.getElementById('test-summary').innerHTML=
+    `<b>Questions:</b> ${qn} &nbsp;&nbsp; <b>Time:</b> ${timeStr} &nbsp;&nbsp; <b>Mode:</b> ${modeStr}<br><b>Topic:</b> ${chUnit.split('—')[0].trim()} (${CLS_LABEL[chCls]})`;
+}
+
+document.getElementById('ch-qn').addEventListener('change',updateSummary);
+document.getElementById('ch-mode').addEventListener('change',function(){
+  document.getElementById('pgsize-wrap').style.display=this.value==='page'?'block':'none';
+  updateSummary();
+});
+document.getElementById('ch-pgsize').addEventListener('change',updateSummary);
+document.getElementById('ch-mode').addEventListener('change',function(){
+  document.getElementById('pgsize-wrap').style.display=this.value==='page'?'block':'none';
+  updateSummary();
+});
+document.getElementById('ch-pgsize').addEventListener('change',updateSummary);
+
+/* ════════════════════════════════════════
+   QUIZ ENGINE
+════════════════════════════════════════ */
+let QS=[], QI=0, QA={}, QT=0, QStart=0, timerID=null;
+
+function shuffle(a){ const b=[...a]; for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; }
+
+function startTest(){
+  const qv=document.getElementById('ch-qn').value;
+  const tv=document.getElementById('ch-time').value;
+  const ord=document.getElementById('ch-order').value;
+  const mode=document.getElementById('ch-mode').value;
+  let pool=getMCQs(chCls,chUnit);
+  if(!pool.length){ toast('No MCQs found.'); return; }
+  const n=qv==='all'?pool.length:Math.min(parseInt(qv),pool.length);
+  QS = (ord==='shuffle'?shuffle(pool):pool).slice(0,n);
+  QI=0; QA={};
+  if(tv==='custom'){
+    const m=parseInt(document.getElementById('ch-mins').value)||0;
+    const s=parseInt(document.getElementById('ch-secs').value)||0;
+    QT=m*60+s;
+  } else { QT=parseInt(tv); }
+  QStart=Date.now();
+  if(mode==='page'){
+    const pgSize=parseInt(document.getElementById('ch-pgsize').value)||10;
+    startPageQuiz(pgSize);
+  } else {
+    renderQ(); startTimer(); go('quiz');
+  }
+}
+
+function retake(){ startTest(); }
+
+function startTimer(){
+  if(timerID) clearInterval(timerID);
+  updateTimer(QT);
+  if(QT===0){ document.getElementById('q-timer').textContent='∞'; return; }
+  timerID=setInterval(()=>{
+    const elapsed=Math.floor((Date.now()-QStart)/1000);
+    const left=QT-elapsed;
+    if(left<=0){ clearInterval(timerID); submit(); }
+    else updateTimer(left);
+  },500);
+}
+
+function updateTimer(secs){
+  if(QT===0) return;
+  const m=Math.floor(secs/60), s=secs%60;
+  const el=document.getElementById('q-timer');
+  el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  el.classList.toggle('urgent',secs<60&&secs>0);
+}
+
+function renderQ(){
+  const q=QS[QI], tot=QS.length;
+  document.getElementById('q-label').textContent='Question '+(QI+1)+' of '+tot;
+  document.getElementById('q-num').textContent='Q · '+(QI+1);
+  document.getElementById('q-bar').style.width=((QI+1)/tot*100)+'%';
+  document.getElementById('q-answered').textContent=Object.keys(QA).length+' / '+tot+' answered';
+  document.getElementById('q-stem').textContent=q.q||q.question;
+
+  const opts = q.opts||q.options||[];
+  document.getElementById('q-choices').innerHTML=opts.map((o,i)=>`
+    <div class="choice${QA[QI]===i?' picked':''}" onclick="pick(${i})">
+      <div class="choice-key">${KEYS[i]}</div>
+      <span>${o}</span>
+    </div>`).join('');
+
+  const prev=document.getElementById('btn-prev');
+  const next=document.getElementById('btn-next');
+  prev.disabled=QI===0;
+  if(QI===tot-1){
+    next.textContent='Submit ✓';
+    next.className='btn btn-ink btn-sm';
+    next.onclick=submit;
+  } else {
+    next.textContent='Next →';
+    next.className='btn btn-ink btn-sm';
+    next.onclick=qNext;
+  }
+}
+
+function pick(i){ QA[QI]=i; renderQ(); }
+function qPrev(){ if(QI>0){ QI--; renderQ(); } }
+function qNext(){ if(QI<QS.length-1){ QI++; renderQ(); } }
+
+function submit(){
+  clearInterval(timerID); timerID=null;
+  const tot=QS.length;
+  let correct=0;
+  QS.forEach((q,i)=>{
+    const ans=q.ans!==undefined?q.ans:q.answer;
+    if(QA[i]===ans) correct++;
+  });
+  const wrong=Object.keys(QA).filter(i=>QA[i]!==(QS[i].ans!==undefined?QS[i].ans:QS[i].answer)).length;
+  const pct=Math.round(correct/tot*100);
+  const elapsed=Math.floor((Date.now()-QStart)/1000);
+  const passed=pct>=40;
+  const certId=passed?'CERT-'+Date.now().toString(36).toUpperCase():null;
+
+  // save attempt
+  const att={
+    id:Date.now(),
+    student:CU.name, email:CU.email,
+    school:CU.school||'', district:CU.district||'',
+    cls:chCls, unit:chUnit,
+    score:correct, total:tot, pct, passed, certId,
+    time:elapsed, date:new Date().toLocaleDateString('en-IN')
+  };
+  const atts=getAttempts(); atts.unshift(att); setAttempts(atts);
+  const users=getUsers();
+  if(users[CU.email]){
+    if(!users[CU.email].history) users[CU.email].history=[];
+    users[CU.email].history.unshift(att); setUsers(users);
+    CU.history=users[CU.email].history; LS.set('sess',CU);
+  }
+
+  // fill result page
+  document.getElementById('r-pct').textContent=pct+'%';
+  document.getElementById('r-verdict').textContent=passed?'✓ PASSED (min. 40% required)':'✗ NOT PASSED — Review and retry';
+  document.getElementById('r-correct').textContent=correct;
+  document.getElementById('r-wrong').textContent=wrong;
+  const ts=elapsed<60?elapsed+'s':Math.floor(elapsed/60)+'m '+(elapsed%60)+'s';
+  document.getElementById('r-time').textContent=ts;
+
+  const cs=document.getElementById('cert-section');
+  if(passed){ cs.style.display='block'; renderCert(att); lastAtt=att; }
+  else cs.style.display='none';
+
+  buildReview();
+  go('result');
+  rTab('sum');
+}
+
+/* ════════════════════════════════════════
+   REVIEW
+════════════════════════════════════════ */
+function buildReview(){
+  document.getElementById('review-list').innerHTML=QS.map((q,i)=>{
+    const ua=QA[i], ans=q.ans!==undefined?q.ans:q.answer;
+    const correct=ua===ans, na=ua===undefined;
+    const opts=q.opts||q.options||[];
+    return `<div class="rev-item ${correct?'correct':'wrong'}">
+      <div class="rev-meta">Q${i+1} &nbsp;·&nbsp; ${correct?'Correct':na?'Not answered':'Wrong'}</div>
+      <div class="rev-q">${q.q||q.question}</div>
+      ${opts.map((o,oi)=>{
+        if(oi===ans) return `<div class="rev-opt ca">${KEYS[oi]}) ${o} ← Correct</div>`;
+        if(oi===ua&&!correct) return `<div class="rev-opt wa">${KEYS[oi]}) ${o}</div>`;
+        return '';
+      }).join('')}
+      ${na?'<div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px">— Not answered</div>':''}
+      ${(q.exp||q.explanation)?`<div class="rev-exp">${q.exp||q.explanation}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function rTab(t){
+  document.getElementById('rtab-sum').style.display=t==='sum'?'block':'none';
+  document.getElementById('rtab-rev').style.display=t==='rev'?'block':'none';
+  document.getElementById('rtab-sum-btn').classList.toggle('on',t==='sum');
+  document.getElementById('rtab-rev-btn').classList.toggle('on',t==='rev');
+}
+
+/* ════════════════════════════════════════
+   CERTIFICATE
+════════════════════════════════════════ */
+let lastAtt=null;
+
+function renderCert(a){
+  const grade=a.pct>=90?'Distinction':a.pct>=75?'Merit':a.pct>=60?'First Class':'Pass';
+  document.getElementById('cert-preview').innerHTML=`
+    <div class="cert-corner-bl"></div><div class="cert-corner-br"></div>
+    <span class="cert-eyebrow">Certificate of Achievement</span>
+    <div class="cert-h1">TN MCQ PLATFORM</div>
+    <div class="cert-platform">Tamil Nadu Board — Science Education</div>
+    <div class="cert-certifies">This is to certify that</div>
+    <div class="cert-name">${a.student}</div>
+    <div class="cert-school">${[a.school,a.district].filter(Boolean).join(' · ')||'&nbsp;'}</div>
+    <div class="cert-body">
+      has successfully completed the<br>
+      <strong>${CLS_LABEL[a.cls]} · ${a.unit}</strong><br>
+      MCQ Assessment with <strong>${grade}</strong>
+    </div>
+    <div class="cert-scores">
+      <div class="cs-item"><div class="cs-val">${a.pct}%</div><div class="cs-lbl">Score</div></div>
+      <div class="cs-item"><div class="cs-val">${a.score}/${a.total}</div><div class="cs-lbl">Correct</div></div>
+      <div class="cs-item"><div class="cs-val">${grade}</div><div class="cs-lbl">Grade</div></div>
+    </div>
+    <div class="cert-rule"></div>
+    <div class="cert-footer">
+      <div><div class="cert-sig-name">TN MCQ Platform</div><div class="cert-sig-lbl">Authorised Signature</div></div>
+      <div style="text-align:right"><div class="cert-sig-name">${a.certId}</div><div class="cert-sig-lbl">Date: ${a.date}</div></div>
+    </div>`;
+}
+
+function dlCert(){
+  if(!lastAtt||!lastAtt.passed){ toast('No certificate available.'); return; }
+  const a=lastAtt;
+  const grade=a.pct>=90?'Distinction':a.pct>=75?'Merit':a.pct>=60?'First Class':'Pass';
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8">
+<title>Certificate — ${a.student}</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fafaf8;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;font-family:'Libre Baskerville',Georgia,serif}
+.outer{border:3px solid #0f0f0f;padding:5px;max-width:780px;width:100%}
+.inner{border:1px solid #9a9890;padding:52px 44px;text-align:center;background:#fff;position:relative}
+.tl,.tr,.bl,.br{position:absolute;width:26px;height:26px;border-color:#0f0f0f}
+.tl{top:12px;left:12px;border-top:2px solid;border-left:2px solid}
+.tr{top:12px;right:12px;border-top:2px solid;border-right:2px solid}
+.bl{bottom:12px;left:12px;border-bottom:2px solid;border-left:2px solid}
+.br{bottom:12px;right:12px;border-bottom:2px solid;border-right:2px solid}
+.eyebrow{font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#6b6a65;display:block;margin-bottom:22px}
+.h1{font-family:'Libre Baskerville',serif;font-weight:700;font-size:26px;letter-spacing:.08em;margin-bottom:5px;color:#0f0f0f}
+.platform{font-family:'Courier Prime',monospace;font-size:11px;color:#6b6a65;letter-spacing:.18em;text-transform:uppercase;margin-bottom:32px}
+.certifies{font-size:14px;color:#6b6a65;font-style:italic;margin-bottom:10px}
+.name{font-family:'Libre Baskerville',serif;font-weight:700;font-size:34px;color:#0f0f0f;margin-bottom:5px}
+.school{font-family:'Courier Prime',monospace;font-size:11px;color:#6b6a65;letter-spacing:.06em;margin-bottom:28px}
+.body{font-size:15px;line-height:1.9;color:#6b6a65;margin-bottom:28px}
+.body strong{color:#0f0f0f}
+.scores{display:flex;justify-content:center;gap:40px;margin-bottom:32px}
+.sv{font-family:'Courier Prime',monospace;font-weight:700;font-size:28px;color:#0f0f0f}
+.sl{font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#6b6a65;margin-top:5px}
+.rule{height:1px;background:#d0cfc8;margin:0 -44px 26px}
+.footer{display:flex;justify-content:space-between;align-items:flex-end}
+.signame{font-family:'Courier Prime',monospace;font-weight:700;font-size:13px;color:#0f0f0f}
+.siglbl{font-family:'Courier Prime',monospace;font-size:9px;color:#6b6a65;letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+@media print{body{padding:0;background:#fff}@page{margin:.8cm;size:A4 landscape}}
+</style></head><body>
+<div class="outer"><div class="inner">
+<div class="tl"></div><div class="tr"></div><div class="bl"></div><div class="br"></div>
+<span class="eyebrow">Certificate of Achievement</span>
+<div class="h1">TN MCQ PLATFORM</div>
+<div class="platform">Tamil Nadu Board — Science Education</div>
+<div class="certifies">This is to certify that</div>
+<div class="name">${a.student}</div>
+<div class="school">${[a.school,a.district].filter(Boolean).join(' · ')||'&nbsp;'}</div>
+<div class="body">has successfully completed the<br><strong>${CLS_LABEL[a.cls]} · ${a.unit}</strong><br>MCQ Assessment with <strong>${grade}</strong></div>
+<div class="scores">
+  <div><div class="sv">${a.pct}%</div><div class="sl">Score</div></div>
+  <div><div class="sv">${a.score}/${a.total}</div><div class="sl">Correct</div></div>
+  <div><div class="sv">${grade}</div><div class="sl">Grade</div></div>
+</div>
+<div class="rule"></div>
+<div class="footer">
+  <div><div class="signame">TN MCQ Platform</div><div class="siglbl">Authorised Signature</div></div>
+  <div style="text-align:right"><div class="signame">${a.certId}</div><div class="siglbl">Date: ${a.date}</div></div>
+</div>
+</div></div>
+<script>window.onload=()=>window.print()<\/script>
+</body></html>`;
+  const b=new Blob([html],{type:'text/html'});
+  const u=URL.createObjectURL(b);
+  const a2=document.createElement('a');
+  a2.href=u; a2.download='certificate_'+lastAtt.student.replace(/\s+/g,'_')+'.html'; a2.click();
+  URL.revokeObjectURL(u);
+  toast('Downloaded! Open in browser → Print → Save as PDF');
+}
+
+/* ════════════════════════════════════════
+   LEADERBOARD
+════════════════════════════════════════ */
+function buildLeaderboard(){
+  const atts=getAttempts().sort((a,b)=>b.pct-a.pct).slice(0,50);
+  const body=document.getElementById('lb-body');
+  if(!atts.length){ body.innerHTML='<div class="empty-state">No attempts yet</div>'; return; }
+  body.innerHTML=atts.map((a,i)=>{
+    const me=CU&&a.email===CU.email;
+    return `<div class="lb-row${me?' me':''}">
+      <div class="lb-rank${i<3?' top':''}">#${i+1}</div>
+      <div>
+        <div style="font-weight:700;font-size:14px">${a.student}</div>
+        <div class="lb-sub">${[a.school,a.district].filter(Boolean).join(' · ')}</div>
+      </div>
+      <div class="lb-pct">${a.pct}%</div>
+      <div class="lb-sub">${a.cls} · ${(a.unit||'').split('—')[1]||''}</div>
+    </div>`;
+  }).join('');
+  const mi=atts.findIndex(a=>CU&&a.email===CU.email);
+  if(mi>=0){
+    document.getElementById('lb-myrank').style.display='flex';
+    document.getElementById('lb-rank').textContent='#'+(mi+1);
+    document.getElementById('lb-of').textContent='out of '+atts.length;
+  }
+}
+
+/* ════════════════════════════════════════
+   PROFILE
+════════════════════════════════════════ */
+function buildProfile(){
+  if(!CU) return;
+  document.getElementById('p-name').textContent=CU.name;
+  document.getElementById('p-meta').textContent=
+    [CU.email, CU.cls?'Class '+CU.cls:'', CU.school, CU.district].filter(Boolean).join(' · ');
+  const hist=(CU.history||[]).slice(0,20);
+  const el=document.getElementById('p-history');
+  if(!hist.length){ el.innerHTML='<div class="empty-state">No attempts yet</div>'; return; }
+  el.innerHTML=hist.map(a=>`
+    <div class="hist-row">
+      <div>
+        <div class="hist-subject">${a.cls} · ${(a.unit||'').split('—')[0].trim()}</div>
+        <div class="hist-meta">${a.date} &nbsp;·&nbsp; ${a.score}/${a.total} correct &nbsp;·&nbsp; ${a.time<60?a.time+'s':Math.floor(a.time/60)+'m '+(a.time%60)+'s'}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="hist-score" style="color:${a.passed?'var(--ink)':'var(--muted)'}">${a.pct}%</span>
+        ${a.passed?`<button class="hist-cert" onclick="redownloadCert('${a.id}')">CERT</button>`:''}
+      </div>
+    </div>`).join('');
+}
+
+function redownloadCert(id){
+  const atts=getAttempts();
+  const a=atts.find(x=>x.id==id||x.id==parseInt(id));
+  if(!a){ toast('Attempt not found.'); return; }
+  lastAtt=a; dlCert();
+}
+
+/* ════════════════════════════════════════
+   ADMIN HELPERS
+════════════════════════════════════════ */
+function fillUnits(targetId, classSelId){
+  const cls=document.getElementById(classSelId).value;
+  const sel=document.getElementById(targetId);
+  sel.innerHTML=CUR[cls].map(u=>`<option value="${u}">${u}</option>`).join('');
+  if(targetId==='m-unit') renderManage();
+}
+
+function initAdmin(){
+  fillUnits('a-unit','a-class');
+  fillUnits('m-unit','m-class');
+  fillUnits('imp-unit','imp-class');
+  fillUnits('txt-unit','txt-class');
+}
+
+function aTab(name,el){
+  ['add','bulk','manage','students','stats'].forEach(t=>{
+    document.getElementById('at-'+t).style.display=t===name?'block':'none';
+  });
+  document.querySelectorAll('.admin-nav-item').forEach(i=>i.classList.remove('on'));
+  el.classList.add('on');
+  if(name==='manage') renderManage();
+  if(name==='students') renderStudents();
+  if(name==='stats') renderStats();
+}
+
+function addOne(){
+  const cls=document.getElementById('a-class').value;
+  const unit=document.getElementById('a-unit').value;
+  const q=document.getElementById('a-q').value.trim();
+  const oa=document.getElementById('a-oa').value.trim();
+  const ob=document.getElementById('a-ob').value.trim();
+  const oc=document.getElementById('a-oc').value.trim();
+  const od=document.getElementById('a-od').value.trim();
+  const ans=parseInt(document.getElementById('a-ans').value);
+  const exp=document.getElementById('a-exp').value.trim();
+  if(!q||!oa||!ob||!oc||!od){ toast('Please fill question and all 4 options.'); return; }
+  addMCQtoDB(cls,unit,{q,opts:[oa,ob,oc,od],ans,exp});
+  ['a-q','a-oa','a-ob','a-oc','a-od','a-exp'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('a-ans').value='0';
+  toast('MCQ saved! ('+cls+' · '+unit.split('—')[0].trim()+')');
+  renderUnits();
+}
+
+function doBulk(){
+  const raw=document.getElementById('bulk-json').value.trim();
+  if(!raw){ toast('Paste JSON data first.'); return; }
+  try{
+    const arr=JSON.parse(raw);
+    if(!Array.isArray(arr)){ toast('JSON must be an array.'); return; }
+    let cnt=0;
+    arr.forEach(item=>{
+      const cls=item.cls||item.class||'X';
+      const unit=item.unit||CUR[cls][0];
+      if(!item.q&&!item.question) return;
+      addMCQtoDB(cls,unit,{
+        q:item.q||item.question,
+        opts:item.opts||item.options||[],
+        ans:item.ans!==undefined?item.ans:(item.answer||0),
+        exp:item.exp||item.explanation||''
+      });
+      cnt++;
+    });
+    document.getElementById('bulk-json').value='';
+    toast(cnt+' MCQs imported!');
+    renderUnits();
+  }catch(e){ toast('Invalid JSON: '+e.message); }
+}
+
+function renderManage(){
+  const cls=document.getElementById('m-class').value;
+  const unit=document.getElementById('m-unit').value;
+  const qs=getMCQs(cls,unit);
+  const el=document.getElementById('manage-list');
+  if(!qs.length){ el.innerHTML='<div class="empty-state">No MCQs in this topic</div>'; return; }
+  el.innerHTML=`<div style="border:1px solid var(--rule-dark);overflow:hidden">
+  ${qs.map((q,i)=>`
+    <div class="mcq-row">
+      <div class="mcq-row-body">
+        <div class="mcq-q">${i+1}. ${q.q||q.question}</div>
+        <div class="mcq-tags">
+          <span class="tag answer">Ans: ${KEYS[q.ans!==undefined?q.ans:q.answer]}</span>
+          ${(q.opts||q.options||[]).map((o,oi)=>`<span class="tag">${KEYS[oi]}: ${o.slice(0,22)}${o.length>22?'…':''}</span>`).join('')}
+          ${q.exp?'<span class="tag">Has explanation</span>':''}
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="doDelete('${cls}','${unit.replace(/'/g,"\\'")}','${q.id}')" style="flex-shrink:0;align-self:flex-start">Delete</button>
+    </div>`).join('')}
+  </div>`;
+}
+
+function doDelete(cls,unit,id){
+  if(!confirm('Delete this MCQ?')) return;
+  delMCQfromDB(cls,unit,id); renderManage(); renderUnits();
+  toast('Deleted.');
+}
+
+function renderStudents(){
+  const users=Object.values(getUsers()).filter(u=>u.role!=='admin');
+  const el=document.getElementById('students-list');
+  if(!users.length){ el.innerHTML='<div class="empty-state">No students yet</div>'; return; }
+  el.innerHTML=`<div style="border:1px solid var(--rule-dark);overflow:hidden">
+  ${users.map(u=>`
+    <div style="padding:14px 18px;border-bottom:1px solid var(--rule);background:var(--white)">
+      <div style="font-weight:700;font-size:14px;margin-bottom:4px">${u.name}</div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.9">
+        ${u.email} &nbsp;·&nbsp; ${CLS_LABEL[u.cls]||'?'} &nbsp;·&nbsp; ${u.school||'—'} &nbsp;·&nbsp; ${u.district||'—'}<br>
+        Attempts: ${(u.history||[]).length}
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+
+function renderStats(){
+  const atts=getAttempts();
+  const users=Object.values(getUsers()).filter(u=>u.role!=='admin');
+  const passed=atts.filter(a=>a.passed).length;
+  const avg=atts.length?Math.round(atts.reduce((s,a)=>s+a.pct,0)/atts.length):0;
+  document.getElementById('stats-body').innerHTML=`
+  <div class="stats-grid">
+    <div class="stat-cell"><div class="stat-num">${users.length}</div><div class="stat-lbl">Students</div></div>
+    <div class="stat-cell"><div class="stat-num">${totalMCQs()}</div><div class="stat-lbl">Total MCQs</div></div>
+    <div class="stat-cell"><div class="stat-num">${atts.length}</div><div class="stat-lbl">Attempts</div></div>
+    <div class="stat-cell"><div class="stat-num">${passed}</div><div class="stat-lbl">Passed</div></div>
+    <div class="stat-cell"><div class="stat-num">${avg}%</div><div class="stat-lbl">Avg Score</div></div>
+    <div class="stat-cell"><div class="stat-num">${atts.length?Math.round(passed/atts.length*100):0}%</div><div class="stat-lbl">Pass Rate</div></div>
+  </div>
+  <div class="hr"></div>
+  <h2 class="section" style="font-size:16px">MCQs by Class</h2>
+  ${['X','XI','XII'].map(c=>`
+    <div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--rule);font-size:14px">
+      <span>${CLS_LABEL[c]} &nbsp;·&nbsp; <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">${CUR[c].length} units</span></span>
+      <span style="font-family:var(--mono);font-weight:700">${countClass(c)} MCQs</span>
+    </div>`).join('')}`;
+}
+
+/* ════════════════════════════════════════
+   PAGE-WISE QUIZ ENGINE
+════════════════════════════════════════ */
+let PQ_SIZE=10, PQ_PAGE=0, PQ_TOTAL_PAGES=0, PQ_timerID=null, PQ_lastAtt=null;
+
+function startPageQuiz(pgSize){
+  PQ_SIZE=pgSize;
+  PQ_PAGE=0;
+  PQ_TOTAL_PAGES=Math.ceil(QS.length/PQ_SIZE);
+  document.getElementById('pq-title').textContent=chUnit;
+  pqStartTimer();
+  pqRenderPage();
+  go('pagequiz');
+}
+
+function pqRetake(){ startPageQuiz(PQ_SIZE); }
+
+function pqStartTimer(){
+  if(PQ_timerID) clearInterval(PQ_timerID);
+  pqUpdateTimer(QT);
+  if(QT===0){ document.getElementById('pq-timer').textContent='∞'; return; }
+  PQ_timerID=setInterval(()=>{
+    const elapsed=Math.floor((Date.now()-QStart)/1000);
+    const left=QT-elapsed;
+    if(left<=0){ clearInterval(PQ_timerID); pqSubmit(); }
+    else pqUpdateTimer(left);
+  },500);
+}
+
+function pqUpdateTimer(secs){
+  if(QT===0) return;
+  const m=Math.floor(secs/60),s=secs%60;
+  const el=document.getElementById('pq-timer');
+  el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  el.classList.toggle('urgent',secs<60&&secs>0);
+}
+
+function pqRenderPage(){
+  const start=PQ_PAGE*PQ_SIZE;
+  const end=Math.min(start+PQ_SIZE,QS.length);
+  const total=QS.length;
+  const totalPages=PQ_TOTAL_PAGES;
+
+  // header sub
+  document.getElementById('pq-sub').textContent=
+    'Class '+chCls+' · Page '+(PQ_PAGE+1)+' of '+totalPages+' · Q'+(start+1)+'–'+end+' of '+total;
+  document.getElementById('pq-page-info').textContent=
+    'Page '+(PQ_PAGE+1)+' / '+totalPages;
+
+  // answered bubbles
+  const bubWrap=document.getElementById('pq-bubbles');
+  bubWrap.innerHTML=QS.map((q,i)=>`
+    <div class="ans-bubble${QA[i]!==undefined?' done':''}${Math.floor(i/PQ_SIZE)===PQ_PAGE?' current':''}"
+      onclick="pqJumpTo(${i})" title="Q${i+1}${QA[i]!==undefined?' — '+KEYS[QA[i]]:' — unanswered'}">
+      ${i+1}
+    </div>`).join('');
+
+  // questions
+  const qWrap=document.getElementById('pq-questions');
+  qWrap.innerHTML=QS.slice(start,end).map((q,pi)=>{
+    const gi=start+pi; // global index
+    const opts=q.opts||q.options||[];
+    return `<div class="qblock" id="qblock-${gi}">
+      <div class="qblock-num">Q ${gi+1} &nbsp;/&nbsp; ${total}</div>
+      <div class="qblock-stem">${q.q||q.question}</div>
+      <div class="qblock-opts">
+        ${opts.map((o,oi)=>`
+          <div class="qblock-opt${QA[gi]===oi?' picked':''}" onclick="pqPick(${gi},${oi})">
+            <div class="qblock-opt-key">${KEYS[oi]}</div>
+            <span>${o}</span>
+          </div>`).join('')}
+      </div>
+      ${(q.exp||q.explanation)?`<div class="qblock-exp">${q.exp||q.explanation}</div>`:''}
+    </div>`;
+  }).join('');
+
+  // page nav buttons
+  const navWrap=document.getElementById('pq-page-nav');
+  let navHTML='';
+  for(let p=0;p<totalPages;p++){
+    const pageAnswered=QS.slice(p*PQ_SIZE,Math.min((p+1)*PQ_SIZE,total))
+      .every((_,pi)=>QA[p*PQ_SIZE+pi]!==undefined);
+    navHTML+=`<button class="pnav-btn${p===PQ_PAGE?' on':''}" onclick="pqGoPage(${p})">
+      ${p+1}${pageAnswered?' ✓':''}
+    </button>`;
+  }
+  navWrap.innerHTML=navHTML;
+
+  // prev/next/submit visibility
+  document.getElementById('pq-prev-page').disabled=PQ_PAGE===0;
+  const isLast=PQ_PAGE===totalPages-1;
+  document.getElementById('pq-next-page').style.display=isLast?'none':'block';
+  document.getElementById('pq-submit-btn').style.display=isLast?'block':'none';
+
+  window.scrollTo(0,0);
+}
+
+function pqPick(gi,oi){
+  QA[gi]=oi;
+  // update just this qblock without full re-render
+  const block=document.getElementById('qblock-'+gi);
+  if(!block){ pqRenderPage(); return; }
+  block.querySelectorAll('.qblock-opt').forEach((el,i)=>{
+    el.classList.toggle('picked',i===oi);
+    el.querySelector('.qblock-opt-key').style.background=i===oi?'var(--ink)':'';
+    el.querySelector('.qblock-opt-key').style.color=i===oi?'var(--paper)':'';
+    el.querySelector('.qblock-opt-key').style.borderColor=i===oi?'var(--ink)':'';
+  });
+  // update bubble
+  pqUpdateBubble(gi);
+}
+
+function pqUpdateBubble(gi){
+  const bubs=document.getElementById('pq-bubbles');
+  if(!bubs) return;
+  const bub=bubs.children[gi];
+  if(bub) bub.classList.toggle('done',QA[gi]!==undefined);
+}
+
+function pqGoPage(p){ PQ_PAGE=p; pqRenderPage(); }
+function pqChangePage(dir){
+  const np=PQ_PAGE+dir;
+  if(np>=0&&np<PQ_TOTAL_PAGES){ PQ_PAGE=np; pqRenderPage(); }
+}
+function pqJumpTo(gi){ const page=Math.floor(gi/PQ_SIZE); if(page!==PQ_PAGE){ PQ_PAGE=page; pqRenderPage(); } }
+
+function pqSubmit(){
+  clearInterval(PQ_timerID); PQ_timerID=null;
+  const tot=QS.length;
+  let correct=0;
+  QS.forEach((q,i)=>{
+    const ans=q.ans!==undefined?q.ans:q.answer;
+    if(QA[i]===ans) correct++;
+  });
+  const wrong=Object.keys(QA).filter(i=>QA[i]!==(QS[i].ans!==undefined?QS[i].ans:QS[i].answer)).length;
+  const pct=Math.round(correct/tot*100);
+  const elapsed=Math.floor((Date.now()-QStart)/1000);
+  const passed=pct>=40;
+  const certId=passed?'CERT-'+Date.now().toString(36).toUpperCase():null;
+
+  const att={
+    id:Date.now(), student:CU.name, email:CU.email,
+    school:CU.school||'', district:CU.district||'',
+    cls:chCls, unit:chUnit,
+    score:correct, total:tot, pct, passed, certId,
+    time:elapsed, date:new Date().toLocaleDateString('en-IN')
+  };
+  const atts=getAttempts(); atts.unshift(att); setAttempts(atts);
+  const users=getUsers();
+  if(users[CU.email]){
+    if(!users[CU.email].history) users[CU.email].history=[];
+    users[CU.email].history.unshift(att); setUsers(users);
+    CU.history=users[CU.email].history; LS.set('sess',CU);
+  }
+
+  // fill page-result
+  document.getElementById('pr-pct').textContent=pct+'%';
+  document.getElementById('pr-verdict').textContent=passed?'✓ PASSED (min. 40%)':'✗ NOT PASSED — Review and retry';
+  document.getElementById('pr-correct').textContent=correct;
+  document.getElementById('pr-wrong').textContent=wrong;
+  const ts=elapsed<60?elapsed+'s':Math.floor(elapsed/60)+'m '+(elapsed%60)+'s';
+  document.getElementById('pr-time').textContent=ts;
+
+  // Answer key grid
+  document.getElementById('pr-answer-grid').innerHTML=QS.map((q,i)=>{
+    const ans=q.ans!==undefined?q.ans:q.answer;
+    const ua=QA[i];
+    const ok=ua===ans;
+    return `<div class="ag-cell" style="${ok?'':'border-left:3px solid var(--muted)'}">
+      <span class="ag-num">Q${i+1}</span>
+      <span class="ag-ans">${KEYS[ans]}</span>
+      ${ua!==undefined&&!ok?`<span style="font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:line-through">${KEYS[ua]}</span>`:''}
+      ${ua===undefined?`<span class="ag-blank">—</span>`:''}
+    </div>`;
+  }).join('');
+
+  // certificate
+  const cs=document.getElementById('pr-cert-section');
+  if(passed){ cs.style.display='block'; renderCertPR(att); PQ_lastAtt=att; }
+  else cs.style.display='none';
+
+  // full review
+  pqBuildReview();
+  go('pageresult');
+  prTab('sum');
+}
+
+function renderCertPR(a){
+  const grade=a.pct>=90?'Distinction':a.pct>=75?'Merit':a.pct>=60?'First Class':'Pass';
+  document.getElementById('pr-cert-preview').innerHTML=`
+    <div class="cert-corner-bl"></div><div class="cert-corner-br"></div>
+    <span class="cert-eyebrow">Certificate of Achievement</span>
+    <div class="cert-h1">TN MCQ PLATFORM</div>
+    <div class="cert-platform">Tamil Nadu Board — Science Education</div>
+    <div class="cert-certifies">This is to certify that</div>
+    <div class="cert-name">${a.student}</div>
+    <div class="cert-school">${[a.school,a.district].filter(Boolean).join(' · ')||'&nbsp;'}</div>
+    <div class="cert-body">has successfully completed the<br>
+      <strong>${CLS_LABEL[a.cls]} · ${a.unit}</strong><br>
+      MCQ Assessment with <strong>${grade}</strong></div>
+    <div class="cert-scores">
+      <div class="cs-item"><div class="cs-val">${a.pct}%</div><div class="cs-lbl">Score</div></div>
+      <div class="cs-item"><div class="cs-val">${a.score}/${a.total}</div><div class="cs-lbl">Correct</div></div>
+      <div class="cs-item"><div class="cs-val">${grade}</div><div class="cs-lbl">Grade</div></div>
+    </div>
+    <div class="cert-rule"></div>
+    <div class="cert-footer">
+      <div><div class="cert-sig-name">TN MCQ Platform</div><div class="cert-sig-lbl">Authorised Signature</div></div>
+      <div style="text-align:right"><div class="cert-sig-name">${a.certId}</div><div class="cert-sig-lbl">Date: ${a.date}</div></div>
+    </div>`;
+}
+
+function dlCertPR(){
+  if(!PQ_lastAtt){ toast('No certificate.'); return; }
+  lastAtt=PQ_lastAtt; dlCert();
+}
+
+function pqBuildReview(){
+  document.getElementById('pr-review-list').innerHTML=QS.map((q,i)=>{
+    const ua=QA[i], ans=q.ans!==undefined?q.ans:q.answer;
+    const correct=ua===ans, na=ua===undefined;
+    const opts=q.opts||q.options||[];
+    return `<div class="rev-item ${correct?'correct':'wrong'}">
+      <div class="rev-meta">Q${i+1} &nbsp;·&nbsp; ${correct?'Correct':na?'Not answered':'Wrong'}</div>
+      <div class="rev-q">${q.q||q.question}</div>
+      ${opts.map((o,oi)=>{
+        if(oi===ans) return `<div class="rev-opt ca">${KEYS[oi]}) ${o} ← Correct</div>`;
+        if(oi===ua&&!correct) return `<div class="rev-opt wa">${KEYS[oi]}) ${o}</div>`;
+        return '';
+      }).join('')}
+      ${na?'<div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px">— Not answered</div>':''}
+      ${(q.exp||q.explanation)?`<div class="rev-exp">${q.exp||q.explanation}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function prTab(t){
+  document.getElementById('prtab-sum').style.display=t==='sum'?'block':'none';
+  document.getElementById('prtab-rev').style.display=t==='rev'?'block':'none';
+  document.getElementById('prt-sum-btn').classList.toggle('on',t==='sum');
+  document.getElementById('prt-rev-btn').classList.toggle('on',t==='rev');
+}
+
+/* ════════════════════════════════════════
+   FILE IMPORT ENGINE (DOC / PDF / TXT)
+════════════════════════════════════════ */
+
+// Library loader (lazy)
+function loadScript(src){ return new Promise((res,rej)=>{ if(document.querySelector('script[src="'+src+'"]')){res();return;} const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s); }); }
+
+let parsedMCQs = [];  // holds last parsed result
+
+/* ── Tab switcher ── */
+function importTab(name, el){
+  ['file','text','json'].forEach(t=>{ document.getElementById('itab-'+t).style.display=t===name?'block':'none'; });
+  document.querySelectorAll('#import-tabs .ctab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+}
+
+/* ── Drop / Select ── */
+function handleFileDrop(e){
+  e.preventDefault();
+  document.getElementById('drop-zone').style.borderColor='var(--rule-dark)';
+  const f=e.dataTransfer.files[0];
+  if(f) processFile(f);
+}
+function handleFileSelect(e){
+  const f=e.target.files[0];
+  if(f) processFile(f);
+  e.target.value='';
+}
+
+async function processFile(file){
+  const name=file.name.toLowerCase();
+  document.getElementById('drop-zone').innerHTML='<div style="font-family:var(--mono);font-size:13px;padding:10px">⏳ Reading <strong>'+file.name+'</strong>...</div>';
+  try{
+    let text='';
+    if(name.endsWith('.txt')){ text=await readTxt(file); }
+    else if(name.endsWith('.pdf')){ text=await readPDF(file); }
+    else if(name.endsWith('.docx')){ text=await readDOCX(file); }
+    else if(name.endsWith('.doc')){ text=await readTxt(file); /* fallback plain */ }
+    else { toast('Unsupported file type.'); resetDropZone(); return; }
+    parsedMCQs = parseMCQText(text);
+    showFilePreview(file.name, parsedMCQs);
+  }catch(err){
+    toast('Error reading file: '+err.message);
+    resetDropZone();
+  }
+}
+
+function resetDropZone(){
+  document.getElementById('drop-zone').innerHTML=`
+    <div style="font-size:32px;margin-bottom:10px">📂</div>
+    <div style="font-family:var(--mono);font-size:13px;font-weight:700;margin-bottom:5px">Click to upload or drag & drop</div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">.txt · .doc · .docx · .pdf</div>`;
+}
+
+/* ── Readers ── */
+function readTxt(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=e=>res(e.target.result); r.onerror=rej; r.readAsText(file); }); }
+
+async function readDOCX(file){
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
+  const ab=await file.arrayBuffer();
+  const result=await mammoth.extractRawText({arrayBuffer:ab});
+  return result.value;
+}
+
+async function readPDF(file){
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const ab=await file.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:ab}).promise;
+  let text='';
+  for(let i=1;i<=pdf.numPages;i++){
+    const page=await pdf.getPage(i);
+    const content=await page.getTextContent();
+    text+=content.items.map(s=>s.str).join(' ')+'\n';
+  }
+  return text;
+}
+
+/* ════════════════════════════════════════
+   MCQ TEXT PARSER  (core engine)
+   Handles:
+   · Numbered questions: 1. / 1) / Q1.
+   · Options: A) A. (A) a)
+   · Answer lines: Answer:/Ans:/Correct:
+   · Explanation lines: Explanation:/Exp:
+════════════════════════════════════════ */
+function parseMCQText(raw){
+  // Normalise line endings
+  let text = raw.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+
+  // Split into question blocks by numbered lines
+  // Regex: line starting with number + . or ) optionally with Q/q prefix
+  const blockRe = /(?:^|\n)(?:Q\.?\s*)?(\d+)[.)]\s+/gm;
+  const blocks = [];
+  let match, lastIdx=0, lastNum=null;
+  const matches=[];
+  while((match=blockRe.exec(text))!==null){ matches.push({idx:match.index,num:parseInt(match[1]),full:match[0]}); }
+
+  for(let i=0;i<matches.length;i++){
+    const start=matches[i].idx+matches[i].full.length;
+    const end=i+1<matches.length?matches[i+1].idx:text.length;
+    blocks.push({ num:matches[i].num, body:text.slice(start,end).trim() });
+  }
+
+  if(!blocks.length) return [];
+
+  const results=[];
+  blocks.forEach(block=>{
+    const lines=block.body.split('\n').map(l=>l.trim()).filter(Boolean);
+    if(!lines.length) return;
+
+    // First line = question text (may span multiple lines until first option)
+    const optRe=/^(?:[A-Da-d][.)]\s*|[A-Da-d]\)\s*|\([A-Da-d]\)\s*)/;
+    const ansRe=/^(?:ans(?:wer)?|correct(?:\s+ans(?:wer)?)?)\s*[:.)\s]\s*([A-Da-d])/i;
+    const expRe=/^(?:exp(?:lanation)?|hint|reason)\s*[:.]\s*(.*)/i;
+
+    let qLines=[], optLines=[], ansLine='', expLine='';
+    let phase='q'; // q → opts → done
+
+    lines.forEach(line=>{
+      if(ansRe.test(line)){ ansLine=line; phase='done'; return; }
+      if(expRe.test(line)){ expLine=line; return; }
+      if(optRe.test(line)){ phase='opts'; optLines.push(line); return; }
+      if(phase==='q') qLines.push(line);
+      else if(phase==='opts') optLines.push(line);
+    });
+
+    const qText=qLines.join(' ').trim();
+    if(!qText) return;
+
+    // Parse options – handle both separate lines and same-line "A) x B) y C) z D) w"
+    let opts=[];
+    if(optLines.length===1){
+      // All on one line: "A) foo B) bar C) baz D) qux"
+      const parts=optLines[0].split(/\s+(?=[A-Da-d][.)]\s)/);
+      opts=parts.map(p=>p.replace(/^[A-Da-d][.)]\s*/,'').trim()).filter(Boolean);
+    } else {
+      // combine and re-split (handles multi-word options that wrap to next line)
+      const combined=optLines.join(' ');
+      const parts=combined.split(/(?=[A-Da-d][.)]\s)/);
+      opts=parts.map(p=>p.replace(/^[A-Da-d][.)]\s*/,'').trim()).filter(Boolean);
+    }
+    // Keep only 4 options
+    opts=opts.slice(0,4);
+    if(opts.length<2) return; // skip if not enough options
+
+    // Parse answer
+    const ansMatch=ansLine.match(ansRe);
+    let ans=0;
+    if(ansMatch){ ans='ABCD'.indexOf(ansMatch[1].toUpperCase()); if(ans<0) ans=0; }
+
+    // Parse explanation
+    let exp='';
+    const expMatch=expLine.match(expRe);
+    if(expMatch) exp=expMatch[1].trim();
+
+    results.push({q:qText, opts, ans, exp});
+  });
+
+  return results;
+}
+
+/* ── Preview helpers ── */
+function showFilePreview(filename, mcqs){
+  resetDropZone();
+  document.getElementById('drop-zone').innerHTML=`
+    <div style="font-family:var(--mono);font-size:13px;padding:10px">
+      ✓ <strong>${filename}</strong> — ready
+      <button class="btn btn-ghost btn-sm" onclick="clearFilePreview()" style="margin-left:10px">✕ Remove</button>
+    </div>`;
+  const prev=document.getElementById('file-preview');
+  document.getElementById('preview-title').textContent='Detected '+mcqs.length+' question'+(mcqs.length!==1?'s':'');
+  document.getElementById('preview-list').innerHTML=renderPreviewList(mcqs);
+  prev.style.display=mcqs.length?'block':'none';
+  if(!mcqs.length) toast('No questions detected. Check file format.');
+}
+
+function renderPreviewList(mcqs){
+  if(!mcqs.length) return '<div style="padding:16px;font-family:var(--mono);font-size:12px;color:var(--muted)">No questions found.</div>';
+  return mcqs.map((q,i)=>`
+    <div style="padding:12px 14px;border-bottom:1px solid var(--rule);background:var(--white)">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:4px;letter-spacing:.08em">Q${i+1} · ANS: ${KEYS[q.ans]}</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:6px;line-height:1.4">${q.q}</div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">${q.opts.map((o,oi)=>`<span style="${oi===q.ans?'color:var(--ink);font-weight:700':''}">${KEYS[oi]}) ${o}</span>`).join(' &nbsp; ')}</div>
+      ${q.exp?`<div style="font-size:11px;color:var(--muted);margin-top:5px;font-style:italic">💡 ${q.exp}</div>`:''}
+    </div>`).join('');
+}
+
+function clearFilePreview(){
+  parsedMCQs=[];
+  document.getElementById('file-preview').style.display='none';
+  resetDropZone();
+}
+
+function importParsed(){
+  if(!parsedMCQs.length){ toast('No questions to import.'); return; }
+  const cls=document.getElementById('imp-class').value;
+  const unit=document.getElementById('imp-unit').value;
+  parsedMCQs.forEach(q=>addMCQtoDB(cls,unit,{...q}));
+  showImportLog(parsedMCQs.length, cls, unit);
+  clearFilePreview();
+  renderUnits();
+}
+
+/* ── Paste text ── */
+function previewPasteText(){
+  const raw=document.getElementById('paste-text').value.trim();
+  if(!raw){ toast('Paste some text first.'); return; }
+  const mcqs=parseMCQText(raw);
+  document.getElementById('paste-preview').style.display='block';
+  document.getElementById('paste-preview-title').textContent='Detected '+mcqs.length+' question'+(mcqs.length!==1?'s':'');
+  document.getElementById('paste-preview-list').innerHTML=renderPreviewList(mcqs);
+  window._pastedMCQs=mcqs;
+}
+
+function importPasteText(){
+  const raw=document.getElementById('paste-text').value.trim();
+  if(!raw){ toast('Paste some text first.'); return; }
+  const mcqs=parseMCQText(raw);
+  if(!mcqs.length){ toast('No questions detected. Check format.'); return; }
+  const cls=document.getElementById('txt-class').value;
+  const unit=document.getElementById('txt-unit').value;
+  mcqs.forEach(q=>addMCQtoDB(cls,unit,{...q}));
+  document.getElementById('paste-text').value='';
+  document.getElementById('paste-preview').style.display='none';
+  showImportLog(mcqs.length, cls, unit);
+  renderUnits();
+}
+
+/* ── Import log ── */
+function showImportLog(count, cls, unit){
+  const log=document.getElementById('import-log');
+  log.style.display='block';
+  log.innerHTML=`✓ <strong>${count} MCQ${count!==1?'s':''}</strong> imported to <strong>${CLS_LABEL[cls]} · ${unit.split('—')[0].trim()}</strong><br>
+    Total in unit now: <strong>${countUnit(cls,unit)}</strong>`;
+  toast(count+' MCQs imported successfully!');
+  setTimeout(()=>{ log.style.display='none'; },5000);
+}
+
+/* ════════════════════════════════════════
+   TOAST
+════════════════════════════════════════ */
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2600);
+}
+
+/* ════════════════════════════════════════
+   BOOT
+════════════════════════════════════════ */
+boot();
+</script>
+</body>
+</html>
