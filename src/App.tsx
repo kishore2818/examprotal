@@ -17,7 +17,7 @@ const SectionSelector: React.FC<SectionSelectorProps> = ({ portalMode, onSelect,
     <div className="app-container">
       <header className="app-header">
         <div className="school-branding">
-          <BookOpen className="dashboard-logo-icon" size={28} style={{ color: 'var(--color-navy-primary)' }} />
+          <BookOpen className="dashboard-logo-icon" size={28} style={{ color: 'var(--color-white)' }} />
           <div className="school-branding-text">
             <h1 className="school-name">Practice Physics</h1>
             <span className="portal-tag">
@@ -217,10 +217,9 @@ function App() {
   // Otherwise, show the Login view
   return (
     <div className="app-container">
-      {/* Top Navigation / Header */}
       <header className="app-header">
         <a href="/" className="school-branding" onClick={(e) => e.preventDefault()}>
-          <BookOpen className="dashboard-logo-icon" size={28} style={{ color: 'var(--color-navy-primary)' }} />
+          <BookOpen className="dashboard-logo-icon" size={28} style={{ color: 'var(--color-white)' }} />
           <div className="school-branding-text">
             <h1 className="school-name">Practice Physics</h1>
             <span className="portal-tag">Exam Portal</span>

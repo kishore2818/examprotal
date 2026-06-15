@@ -446,13 +446,12 @@ export const QuizEngineView: React.FC<Props> = ({ assignment, onFinish }) => {
       </div>
 
       {/* Nav Controls */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="quiz-nav-controls">
         <button 
           type="button" 
-          className="btn-secondary" 
+          className="btn-secondary quiz-nav-btn" 
           onClick={handlePrev}
           disabled={currentQuestionIndex === 0}
-          style={{ padding: '0.75rem 1.5rem' }}
         >
           ← Previous
         </button>
@@ -460,18 +459,16 @@ export const QuizEngineView: React.FC<Props> = ({ assignment, onFinish }) => {
         {currentQuestionIndex === totalQuestions - 1 ? (
           <button 
             type="button" 
-            className="submit-btn publish-exam-btn" 
+            className="submit-btn publish-exam-btn quiz-nav-btn submit-quiz-btn" 
             onClick={handleSubmit}
-            style={{ padding: '0.75rem 2rem', backgroundColor: '#22c55e', color: 'white', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
           >
             Submit Exam ✓
           </button>
         ) : (
           <button 
             type="button" 
-            className="btn-primary" 
+            className="btn-primary quiz-nav-btn" 
             onClick={handleNext}
-            style={{ padding: '0.75rem 1.5rem' }}
           >
             Next →
           </button>
